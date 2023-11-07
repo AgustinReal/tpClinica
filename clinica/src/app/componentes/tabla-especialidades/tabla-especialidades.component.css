@@ -1,0 +1,5 @@
+.tablet {
+    max-height: 200px;
+    overflow-y: auto; /* Agregar barra de desplazamiento vertical cuando sea necesario */
+    border-collapse: collapse;
+}

@@ -1,0 +1,23 @@
+<div class="d-flex" style="height: 10vh">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark w-100" style="height: 10vh;">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="!firebase.estaLogueado" routerLink="ingreso">INGRESO</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="!firebase.estaLogueado" routerLink="registro">REGISTRO</a>
+              </li>
+              <li class="nav-item" *ngIf="firebase.esAdmin">
+                <a class="nav-link" routerLink="administracionUsuarios">ADMINISTRACIÓN USUARIOS</a>
+              </li>
+              <button class="btn btn-warning" (click)="firebase.CerrarSesion()" *ngIf="firebase.estaLogueado">Cerrar sesión</button>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>

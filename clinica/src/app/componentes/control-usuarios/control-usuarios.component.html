@@ -1,0 +1,47 @@
+<div class="fondoo" >
+
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-dark m-2" (click)="PresionarLsitadoEspecialistas()"> Listado de usuarios especialista</button>
+        <button class="btn btn-dark m-2" (click)="PresionarListadoPacientes()">Listado de pacientes </button>
+        <button class="btn btn-dark m-2" (click)="PresionarAltaAdministrador()"> Alta administrador</button>
+    </div>
+
+  
+    <div class="altaPaciente" *ngIf="listadoEspecialista" style="max-height: 750px; overflow-y: auto;  border-collapse: collapse;">
+
+        <div class="container flex-column"  *ngFor="let especialistaAux of arrayEspecilistas; index as i">
+            <br>
+            <div class="card  m-3" style="width: 25rem; ">
+                <img src="{{especialistaAux.paths}}" style="height: 300px; width: 400px;"  class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Mail: {{especialistaAux.mail}}</h5>
+                    <p class="card-text">Nombre: {{especialistaAux.nombre}}</p>
+                    <p class="card-text">Apellido: {{especialistaAux.apellido}}</p>
+                    <p class="card-text">Dni: {{especialistaAux.dni}}</p>
+                    <p class="card-text">Especialidad: {{especialistaAux.especialidad}}</p>
+                    <button class="btn btn-dark" style="width: 360px; background-color: rgb(216, 69, 43);" (click)="Desabilitar(especialistaAux)" *ngIf="especialistaAux.loginHabilitado">Desabilitar</button>
+                    <button class="btn btn-dark" style="width: 360px; background-color: rgb(39, 211, 48);" (click)="Habilitar(especialistaAux)" *ngIf="!especialistaAux.loginHabilitado">Habilitar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="altaPaciente" *ngIf="listadoPacientes" style="max-height: 750px; overflow-y: auto;  border-collapse: collapse;">
+
+        <div class="container flex-column"  *ngFor="let usuarioAux of arrayPacientes; index as i">
+            <br>
+            <div class="card  m-3" style="width: 25rem; ">
+                <img src="{{usuarioAux.paths}}" style="height: 300px; width: 400px;"  class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Mail: {{usuarioAux.mail}}</h5>
+                    <p class="card-text">Nombre: {{usuarioAux.nombre}}</p>
+                    <p class="card-text">Apellido: {{usuarioAux.apellido}}</p>
+                    <p class="card-text">Dni: {{usuarioAux.dni}}</p>
+                   </div>
+            </div>
+        </div>
+    </div>
+
+    <app-alta-administrador *ngIf="altaAdministrador"> </app-alta-administrador>
+
+</div>

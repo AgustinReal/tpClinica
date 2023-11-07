@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "clinica",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

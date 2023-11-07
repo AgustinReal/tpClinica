@@ -1,0 +1,54 @@
+<div class="d-flex flex-column Pantalla">
+    
+    <br/>
+    <div class="d-flex justify-content-center" >
+    <h1 class="letrasIniciarSesion">Iniciar sesión</h1>
+    </div>
+    <br/> 
+
+    <br/>   
+    <br/>     
+    <div class="d-flex justify-content-center" >
+        <label for="correo" class="letrasLabel m-1">Correo</label>
+        <input class="ingreso"  type="text" [(ngModel)]="correoTxt" id="correo" [ngModelOptions]="{standalone: true}" required>
+    </div>
+    
+    <br/> 
+    <br/> 
+    <br/>   
+    <div class="d-flex justify-content-center" >
+        <label for="password" class="letrasLabel m-1">Contraseña</label>
+        <input class="ingreso" type="{{ esTexto ? 'text' : 'password' }}" id="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"/>
+        
+        <button class="BottonOjoAbiertoCerrado" (click)="togglePasswordVisibility()">
+            <img [src]="imagenOjo" class="ojo" alt="">
+        </button>
+    </div>  
+ 
+    <br/>
+    <br/>
+    <div class="d-flex justify-content-center" >
+        <button type="button" (click)="Ingreso()" class="btn btn-dark m-1  botonAcceso">Iniciar sesión</button>
+
+        <button type="button" (click)="LimpiarCampos()" class="btn btn-dark m-1 botonAcceso">Limpiar</button>
+    </div>
+
+    <br/>
+    <div class="d-flex justify-content-center" >
+        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarProfAgustin()"> 
+        <img style="border-radius: 30px;" src="../../../assets/imagenes/login/accesoRapido/bossDos.png" class="foto">
+        </button>    
+
+        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarProfOctavio()"> 
+        <img style="border-radius: 30px;" src="../../../assets/imagenes/login/accesoRapido/boss.png" class="foto">
+        </button> 
+
+        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarEspecialista()"> 
+        <img style="border-radius: 30px;" src="../../../assets/imagenes/login/accesoRapido/clinicaEspecialista.png" class="foto">
+        </button> 
+
+        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarPaciente()"> 
+            <img style="border-radius: 30px;" src="../../../assets/imagenes/login/accesoRapido/clinicaPaciente.png" class="foto">
+        </button> 
+    </div>   
+</div>

@@ -1,0 +1,176 @@
+<form class="altaEspecialista row g-5 card-header" action="#"
+  [formGroup]="formularioAdministrador">
+
+  <div class="separacionUno col-md-6 col-lg-6">
+    <div class="justify-content-center">
+      <h3 style="text-align: center;">Foto Perfil Principal</h3>
+    </div>
+    <div class="d-flex justify-content-center">
+      <input type="file" id="fileUnoInput" formControlName="fileUnoInput" class="form-control" multiple value="" required>
+    </div>
+    <span
+        *ngIf="formularioAdministrador.controls['fileUnoInput'].errors?.['required'] && formularioAdministrador.controls['fileUnoInput'].touched"
+        class="text-danger">La foto Principal es obligatorio
+      </span>
+
+    <div>
+      <label for="nombreTxt" class="form-label">Nombre</label>
+      <input formControlName="nombreTxt" type="text" class="form-control" id="nombreTxt" placeholder="Ingrese su nombre"
+        value="" required="">
+
+      <span
+        *ngIf="formularioAdministrador.controls['nombreTxt'].errors?.['required'] && formularioAdministrador.controls['nombreTxt'].touched"
+        class="text-danger">El nombre es obligatorio
+      </span>
+      <span *ngIf="formularioAdministrador.controls['nombreTxt'].errors?.['pattern']" class="text-danger">
+        El nombre debe contener solo letras
+      </span>
+      <span
+        *ngIf="formularioAdministrador.controls['nombreTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['nombreTxt'].touched"
+        class="text-danger">El nombre no puede contener espacios vacios
+      </span>
+    </div>
+
+    <div>
+      <label for="apellidoTxt" class="form-label">Apellido</label>
+
+      <input formControlName="apellidoTxt" type="text" class="form-control" id="apellidoTxt"
+        placeholder="Ingrese el apellido" value="" required="">
+      <span
+        *ngIf="formularioAdministrador.controls['apellidoTxt'].errors?.['required'] && formularioAdministrador.controls['apellidoTxt'].touched"
+        class="text-danger">El apellido es obligatorio
+      </span>
+      <span *ngIf="formularioAdministrador.controls['apellidoTxt'].errors?.['pattern']" class="text-danger">
+        El apellido debe contener solo letras
+      </span>
+      <span
+        *ngIf="formularioAdministrador.controls['apellidoTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['apellidoTxt'].touched"
+        class="text-danger">El apellido no puede contener espacios vacios
+      </span>
+    </div>
+
+    <div>
+      <label for="edadTxt" class="form-label">Edad</label>
+      <input formControlName="edadTxt" type="text" class="form-control" id="edadTxt" placeholder="Ingrese su edad"
+        value="" required="">
+
+      <span
+        *ngIf="formularioAdministrador.controls['edadTxt'].errors?.['required'] && formularioAdministrador.controls['edadTxt'].touched"
+        class="text-danger">La edad es obligatorio</span>
+      <span
+        *ngIf="formularioAdministrador.controls['edadTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['edadTxt'].touched"
+        class="text-danger">La edad no puede contener espacios vacios</span>
+      <span
+        *ngIf="formularioAdministrador.controls['edadTxt'].errors?.['minlength'] && formularioAdministrador.controls['edadTxt'].touched"
+        class="text-danger">La edad mínima es 1
+      </span>
+      <span
+        *ngIf="formularioAdministrador.controls['edadTxt'].errors?.['maxlength'] && formularioAdministrador.controls['edadTxt'].touched"
+        class="text-danger">La edad maxima es 99
+      </span>
+      <span *ngIf="formularioAdministrador.controls['edadTxt'].errors?.['pattern']" class="text-danger">
+        La edad debe contener solo numeros</span>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+      <button class="btn-dark botonFinales" [disabled]="this.formularioAdministrador.invalid"
+        (click)="AltaAdministrador()">Agregar</button>
+
+  </div>
+
+  <div class="separacionUno col-md-6 col-lg-6">
+    
+    <div>
+        <label for="dniTxt" class="form-label">DNI</label>
+        <input formControlName="dniTxt" type="text" class="form-control" id="dniTxt"
+          placeholder="Ingrese su número de DNI" value="" required="">
+        <span
+          *ngIf="formularioAdministrador.controls['dniTxt'].errors?.['required'] && formularioAdministrador.controls['dniTxt'].touched"
+          class="text-danger">El DNI es obligatorio</span>
+        <span
+          *ngIf="formularioAdministrador.controls['dniTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['dniTxt'].touched"
+          class="text-danger">El DNI no puede contener espacios vacios</span>
+        <span
+          *ngIf="formularioAdministrador.controls['dniTxt'].errors?.['maxlength'] && formularioAdministrador.controls['dniTxt'].touched"
+          class="text-danger">El maximo de caracteres es 8</span>
+        <span
+          *ngIf="formularioAdministrador.controls['dniTxt'].errors?.['minlength'] && formularioAdministrador.controls['dniTxt'].touched"
+          class="text-danger">El minimo de caracteres es 7</span>
+        <span *ngIf="formularioAdministrador.controls['dniTxt'].errors?.['pattern']" class="text-danger">
+          El DNI debe contener solo numeros</span>
+      </div>
+
+    <div>
+      <label for="mailTxt" class="form-label">Mail</label>
+      <input formControlName="mailTxt" type="text" class="form-control" id="mailTxt" placeholder="Ingrese su mail"
+        value="" required="">
+
+      <span
+        *ngIf="formularioAdministrador.controls['mailTxt'].errors?.['required'] && formularioAdministrador.controls['mailTxt'].touched"
+        class="text-danger">El mail es obligatorio
+      </span>
+      <span *ngIf="formularioAdministrador.controls['mailTxt'].errors?.['pattern']" class="text-danger">
+        El mail social debe tener @, .com .
+      </span>
+      <span
+        *ngIf="formularioAdministrador.controls['mailTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['mailTxt'].touched"
+        class="text-danger">El mail no puede contener espacios vacios
+      </span>
+    </div>
+
+    <div>
+      <label for="contraseniaTxt" class="form-label">Contraseña</label>
+      <input formControlName="contraseniaTxt" type="password" class="form-control" id="contraseniaTxt"
+        placeholder="Ingrese su contraseña" value="" required="">
+
+      <span
+        *ngIf="formularioAdministrador.controls['contraseniaTxt'].errors?.['required'] && formularioAdministrador.controls['contraseniaTxt'].touched"
+        class="text-danger">La contrseña es obligatorio
+      </span>
+      <span *ngIf="formularioAdministrador.controls['contraseniaTxt'].errors?.['pattern']" class="text-danger">
+        La contrseña debe tener letras y numeros.
+      </span>
+      <span
+        *ngIf="formularioAdministrador.controls['contraseniaTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['contraseniaTxt'].touched"
+        class="text-danger">La contrseña no puede contener espacios vacios
+      </span>
+    </div>
+
+    <div>
+      <label for="contraseniaConfirmacionTxt" class="form-label">Confirmar contraseña</label>
+      <input formControlName="contraseniaConfirmacionTxt" type="password" class="form-control"
+        id="contraseniaConfirmacionTxt" placeholder="Ingrese su contraseña" value="" required="">
+
+      <span
+        *ngIf="formularioAdministrador.controls['contraseniaConfirmacionTxt'].errors?.['required'] && formularioAdministrador.controls['contraseniaConfirmacionTxt'].touched"
+        class="text-danger">La confirmacion de la contrseña es obligatorio
+      </span>
+      <span *ngIf="formularioAdministrador.controls['contraseniaConfirmacionTxt'].errors?.['pattern']" class="text-danger">
+        La confirmacion de la contrseña debe tener letras y numeros.
+      </span>
+      <span
+        *ngIf="formularioAdministrador.controls['contraseniaConfirmacionTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['contraseniaConfirmacionTxt'].touched"
+        class="text-danger">La confirmacion de la contrseña no puede contener espacios vacios.
+      </span>
+      <span
+        *ngIf="formularioAdministrador.errors?.['diferente'] && formularioAdministrador.controls['contraseniaConfirmacionTxt'].touched && formularioAdministrador.controls['contraseniaTxt'].touched "
+        class="text-danger">La confirmacion de la contrseña y la contraseña deben ser iguales.
+      </span>
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button class="btn-dark botonFinales" (click)="LimpiarCampos()">Limpiar campos</button>
+  </div>
+
+  </form>

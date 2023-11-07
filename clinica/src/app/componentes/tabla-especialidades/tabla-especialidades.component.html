@@ -1,0 +1,16 @@
+<div class="container py-4 tablet">
+    <table class="table table-dark table-striped  tableUno">
+        <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">ESPECIALIDAD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let especilidadAux of arrayEspecilidades; index as i" (click)="SeleccionarEspecialidadTabla(especilidadAux)">
+              <td>{{i+1}}</td>
+              <td>{{especilidadAux.especialidad}}</td>
+            </tr> 
+          </tbody>
+    </table>
+</div>

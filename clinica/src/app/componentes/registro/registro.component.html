@@ -1,0 +1,226 @@
+<div class="fondoo" >
+
+  <h1 style="text-align: center;">{{titulo}}</h1>
+
+  <div *ngIf="!seleccionoDif">
+    <div class="d-flex justify-content-center">
+      <button type="button" (click)="Seleccionar(1)" class="btn btn-outline-warning   btnDifPaciente">
+        <img src="../../../assets/imagenes/registro/altaPaciente/clinicaPaciente.png" class="foto">
+      </button>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="button" (click)="Seleccionar(2)" class="btn btn-outline-warning   btnDifEspecialista">
+        <img src="../../../assets/imagenes/registro/altaEspecialista/clinicaEspecialista.png" class="foto">
+      </button>
+    </div>
+  </div>
+
+
+  <form class="altaPaciente row g-5 card-header" *ngIf="boolEspecialista == true" action="#"
+    [formGroup]="formularioEncuesta">
+
+    <div class="separacionUno col-md-6 col-lg-6">
+
+
+      <div class="justify-content-center">
+        <h3 style="text-align: center;">Foto Perfil Principal</h3>
+      </div>
+      <div class="d-flex justify-content-center">
+        <input type="file" id="fileUnoInput" formControlName="fileUnoInput" class="form-control" multiple value="" required>
+      </div>
+      <span
+          *ngIf="formularioEncuesta.controls['fileUnoInput'].errors?.['required'] && formularioEncuesta.controls['fileUnoInput'].touched"
+          class="text-danger">La foto Principal es obligatorio
+        </span>
+
+      <div>
+        <label for="nombreTxt" class="form-label">Nombre</label>
+        <input formControlName="nombreTxt" type="text" class="form-control" id="nombreTxt" placeholder="Ingrese su nombre"
+          value="" required="">
+  
+        <span
+          *ngIf="formularioEncuesta.controls['nombreTxt'].errors?.['required'] && formularioEncuesta.controls['nombreTxt'].touched"
+          class="text-danger">El nombre es obligatorio
+        </span>
+        <span *ngIf="formularioEncuesta.controls['nombreTxt'].errors?.['pattern']" class="text-danger">
+          El nombre debe contener solo letras
+        </span>
+        <span
+          *ngIf="formularioEncuesta.controls['nombreTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['nombreTxt'].touched"
+          class="text-danger">El nombre no puede contener espacios vacios
+        </span>
+      </div>
+
+      <div>
+        <label for="apellidoTxt" class="form-label">Apellido</label>
+  
+        <input formControlName="apellidoTxt" type="text" class="form-control" id="apellidoTxt"
+          placeholder="Ingrese el apellido" value="" required="">
+        <span
+          *ngIf="formularioEncuesta.controls['apellidoTxt'].errors?.['required'] && formularioEncuesta.controls['apellidoTxt'].touched"
+          class="text-danger">El apellido es obligatorio
+        </span>
+        <span *ngIf="formularioEncuesta.controls['apellidoTxt'].errors?.['pattern']" class="text-danger">
+          El apellido debe contener solo letras
+        </span>
+        <span
+          *ngIf="formularioEncuesta.controls['apellidoTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['apellidoTxt'].touched"
+          class="text-danger">El apellido no puede contener espacios vacios
+        </span>
+      </div>
+
+      <div>
+        <label for="edadTxt" class="form-label">Edad</label>
+        <input formControlName="edadTxt" type="text" class="form-control" id="edadTxt" placeholder="Ingrese su edad"
+          value="" required="">
+  
+        <span
+          *ngIf="formularioEncuesta.controls['edadTxt'].errors?.['required'] && formularioEncuesta.controls['edadTxt'].touched"
+          class="text-danger">La edad es obligatorio</span>
+        <span
+          *ngIf="formularioEncuesta.controls['edadTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['edadTxt'].touched"
+          class="text-danger">La edad no puede contener espacios vacios</span>
+        <span
+          *ngIf="formularioEncuesta.controls['edadTxt'].errors?.['minlength'] && formularioEncuesta.controls['edadTxt'].touched"
+          class="text-danger">La edad mínima es 1
+        </span>
+        <span
+          *ngIf="formularioEncuesta.controls['edadTxt'].errors?.['maxlength'] && formularioEncuesta.controls['edadTxt'].touched"
+          class="text-danger">La edad maxima es 99
+        </span>
+        <span *ngIf="formularioEncuesta.controls['edadTxt'].errors?.['pattern']" class="text-danger">
+          La edad debe contener solo numeros</span>
+      </div>
+
+      <div>
+        <label for="dniTxt" class="form-label">DNI</label>
+        <input formControlName="dniTxt" type="text" class="form-control" id="dniTxt"
+          placeholder="Ingrese su número de DNI" value="" required="">
+        <span
+          *ngIf="formularioEncuesta.controls['dniTxt'].errors?.['required'] && formularioEncuesta.controls['dniTxt'].touched"
+          class="text-danger">El DNI es obligatorio</span>
+        <span
+          *ngIf="formularioEncuesta.controls['dniTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['dniTxt'].touched"
+          class="text-danger">El DNI no puede contener espacios vacios</span>
+        <span
+          *ngIf="formularioEncuesta.controls['dniTxt'].errors?.['maxlength'] && formularioEncuesta.controls['dniTxt'].touched"
+          class="text-danger">El maximo de caracteres es 8</span>
+        <span
+          *ngIf="formularioEncuesta.controls['dniTxt'].errors?.['minlength'] && formularioEncuesta.controls['dniTxt'].touched"
+          class="text-danger">El minimo de caracteres es 7</span>
+        <span *ngIf="formularioEncuesta.controls['dniTxt'].errors?.['pattern']" class="text-danger">
+          El DNI debe contener solo numeros</span>
+      </div>
+      <br>
+      <br>
+      <button class="btn-dark botonFinales" [disabled]="this.formularioEncuesta.invalid"
+        (click)="AltaPaciente()">Agregar</button>
+
+    </div>
+
+
+    <div class="separacionUno col-md-6 col-lg-6">
+
+
+      <div class="justify-content-center">
+        <h3 style="text-align: center;">Foto Perfil Secundario</h3>
+      </div>
+      <div class="d-flex justify-content-center">
+        <input type="file" id="fileDosInput" formControlName="fileDosInput" class="form-control" multiple value="" required>
+      </div>
+      <span
+          *ngIf="formularioEncuesta.controls['fileDosInput'].errors?.['required'] && formularioEncuesta.controls['fileDosInput'].touched"
+          class="text-danger">La foto Secundaria es obligatorio
+        </span>
+      
+      <div>
+          <label for="obraSocialTxt" class="form-label">Obra social</label>
+          <input formControlName="obraSocialTxt" type="text" class="form-control" id="obraSocialTxt"
+            placeholder="Ingrese su obra social" value="" required="">
+
+            <span
+              *ngIf="formularioEncuesta.controls['obraSocialTxt'].errors?.['required'] && formularioEncuesta.controls['obraSocialTxt'].touched"
+              class="text-danger">La obra social es obligatorio
+            </span>
+            <span *ngIf="formularioEncuesta.controls['obraSocialTxt'].errors?.['pattern']" class="text-danger">
+              La obra social debe contener solo letras
+            </span>
+            <span
+              *ngIf="formularioEncuesta.controls['obraSocialTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['obraSocialTxt'].touched"
+              class="text-danger">La obra social no puede contener espacios vacios
+            </span>
+      </div>
+
+      <div>
+        <label for="mailTxt" class="form-label">Mail</label>
+        <input formControlName="mailTxt" type="text" class="form-control" id="mailTxt" placeholder="Ingrese su mail"
+          value="" required="">
+  
+        <span
+          *ngIf="formularioEncuesta.controls['mailTxt'].errors?.['required'] && formularioEncuesta.controls['mailTxt'].touched"
+          class="text-danger">El mail es obligatorio
+        </span>
+        <span *ngIf="formularioEncuesta.controls['mailTxt'].errors?.['pattern']" class="text-danger">
+          El mail social debe tener @, .com .
+        </span>
+        <span
+          *ngIf="formularioEncuesta.controls['mailTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['mailTxt'].touched"
+          class="text-danger">El mail no puede contener espacios vacios
+        </span>
+      </div>
+
+      <div>
+        <label for="contraseniaTxt" class="form-label">Contraseña</label>
+        <input formControlName="contraseniaTxt" type="password" class="form-control" id="contraseniaTxt"
+          placeholder="Ingrese su contraseña" value="" required="">
+  
+        <span
+          *ngIf="formularioEncuesta.controls['contraseniaTxt'].errors?.['required'] && formularioEncuesta.controls['contraseniaTxt'].touched"
+          class="text-danger">La contrseña es obligatorio
+        </span>
+        <span *ngIf="formularioEncuesta.controls['contraseniaTxt'].errors?.['pattern']" class="text-danger">
+          La contrseña debe tener letras y numeros.
+        </span>
+        <span
+          *ngIf="formularioEncuesta.controls['contraseniaTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['contraseniaTxt'].touched"
+          class="text-danger">La contrseña no puede contener espacios vacios
+        </span>
+      </div>
+
+      <div>
+        <label for="contraseniaConfirmacionTxt" class="form-label">Confirmar contraseña</label>
+        <input formControlName="contraseniaConfirmacionTxt" type="password" class="form-control"
+          id="contraseniaConfirmacionTxt" placeholder="Ingrese su contraseña" value="" required="">
+  
+        <span
+          *ngIf="formularioEncuesta.controls['contraseniaConfirmacionTxt'].errors?.['required'] && formularioEncuesta.controls['contraseniaConfirmacionTxt'].touched"
+          class="text-danger">La confirmacion de la contrseña es obligatorio
+        </span>
+        <span *ngIf="formularioEncuesta.controls['contraseniaConfirmacionTxt'].errors?.['pattern']" class="text-danger">
+          La confirmacion de la contrseña debe tener letras y numeros.
+        </span>
+        <span
+          *ngIf="formularioEncuesta.controls['contraseniaConfirmacionTxt'].errors?.['containsSpaces'] && formularioEncuesta.controls['contraseniaConfirmacionTxt'].touched"
+          class="text-danger">La confirmacion de la contrseña no puede contener espacios vacios.
+        </span>
+        <span
+          *ngIf="formularioEncuesta.errors?.['diferente'] && formularioEncuesta.controls['contraseniaConfirmacionTxt'].touched && formularioEncuesta.controls['contraseniaTxt'].touched "
+          class="text-danger">La confirmacion de la contrseña y la contraseña deben ser iguales.
+        </span>
+      </div>
+
+
+      <br>
+      <br>
+      <button class="btn-dark botonFinales" (click)="LimpiarCampos()">Limpiar campos</button>
+
+    </div>
+  </form>
+  
+
+  <app-alta-especialista *ngIf="boolPaciente == true"></app-alta-especialista>
+  
+
+
+</div>
+

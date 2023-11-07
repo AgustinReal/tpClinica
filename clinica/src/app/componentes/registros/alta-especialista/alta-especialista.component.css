@@ -1,0 +1,22 @@
+/* ALTA ESPECIALISTA */
+
+.altaEspecialista
+{
+    width: 80%;
+    height: 80%;
+    border-radius: 30px;
+    background-color: rgb(177, 220, 255);
+    margin: 0 auto;
+    opacity: 0.85;
+}
+
+.botonFinales
+{
+    background-color: rgb(254, 255, 255);
+    color: black; 
+    height: 50px;
+    width: 720px;
+    border-radius: 30px;
+}
+
+/* FIN ALTA ESPECIALISTA */
