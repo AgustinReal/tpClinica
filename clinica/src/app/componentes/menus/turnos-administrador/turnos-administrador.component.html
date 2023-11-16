@@ -1,0 +1,46 @@
+<div class="pantalla-principal justify-content-center" style="padding: 2rem;" >
+    <div class="card text-center contenedor-carta view-from-right" style="padding: 3rem;">
+        <div class="card-header" style="background-color: rgb(95, 186, 228);">
+            <div class="row justify-content-center">
+                <div class="col-2 " style="background-color: rgb(117, 117, 117); border-radius: 10px; margin: 1rem;">
+                    <h1>FILTRAR</h1>
+                    <input type="text" [(ngModel)]="textoIngresado" (keyup)="FiltrarBusqueda()">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card-header" style="background-color: rgb(95, 186, 228);">
+            <h1 style="text-align: center;"> MIS TURNOS</h1>
+            <table class="table table-success table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">DOCTOR</th>
+                      <th scope="col">PACIENTE</th>
+                      <th scope="col">MAIL DOCTOR</th>
+                      <th scope="col">FECHA</th>
+                      <th scope="col">HORARIO</th>
+                      <th scope="col">ESPECIALIDAD</th>
+                      <th scope="col">ESTADO TURNO</th>
+                      <th scope="col">ACCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let filtrar of this.turnosFiltrados; index as i">
+                      <td >{{i}}</td>
+                      <td>{{filtrar.doctor.apellido + " " + filtrar.doctor.nombre}}</td>
+                      <td>{{filtrar.paciente.apellido + " " + filtrar.paciente.nombre}}</td>
+                      <td>{{filtrar.doctor.mail}}</td>
+                      <td>{{obtenerFechaFormateada(filtrar.dia)}}</td>
+                      <td>{{filtrar.horario}}</td>
+                      <td>{{filtrar.especialista}}</td>
+                      <td><p>{{filtrar.estadoTurno}}</p></td>
+                      <td>
+                         <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'aceptado'" (click)="CancelarTurno(filtrar)" style="background-color: rgb(204, 69, 69); color: rrgb(248, 248, 248)">CANCELAR TURNO</button>
+                    </tr> 
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

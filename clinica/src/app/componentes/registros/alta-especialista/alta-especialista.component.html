@@ -91,9 +91,16 @@
       <span *ngIf="formularioEncuestaEspecialista.controls['dniTxt'].errors?.['pattern']" class="text-danger">
         El DNI debe contener solo numeros</span>
     </div>
+
     <br>
-    <br>
-    <br>
+    <div>
+      <button class="btn btn-dark">{{captcha}}</button>
+      <br>
+      <label for="captchaIngresado">Ingrese CAPTCHA</label>
+      <input formControlName="captchaIngresado" type="password" class="form-control"
+        id="captchaIngresado"  placeholder="Ingrese el captcha" value="" required="Ingrese el captcha">
+    </div>
+<br>
     <br>
       <button class="btn-dark botonFinales" [disabled]="this.formularioEncuestaEspecialista.invalid"
         (click)="AltaEspecialista()">Agregar</button>
@@ -112,7 +119,7 @@
         class="text-danger">El mail es obligatorio
       </span>
       <span *ngIf="formularioEncuestaEspecialista.controls['mailTxt'].errors?.['pattern']" class="text-danger">
-        El mail social debe tener @, .com .
+        El mail social debe tener  .com .
       </span>
       <span
         *ngIf="formularioEncuestaEspecialista.controls['mailTxt'].errors?.['containsSpaces'] && formularioEncuestaEspecialista.controls['mailTxt'].touched"
@@ -176,6 +183,12 @@
         *ngIf="formularioEncuestaEspecialista.controls['nuevaEspecialidadTxt'].errors?.['containsSpaces'] && formularioEncuestaEspecialista.controls['nuevaEspecialidadTxt'].touched"
         class="text-danger">La especialidad no puede contener espacios vacios
       </span>
+    </div>
+
+    <div>
+      <label for="especialidadOpcional" class="form-label">Especialiodad Opcional</label>
+      <input formControlName="especialidadOpcional" type="text" class="form-control" id="especialidadOpcional" placeholder="Ingrese la especialidad"
+        value="" >
     </div>
 
     <app-tabla-especialidades (SeleccionarEspecilidad)="atrapado($event)"></app-tabla-especialidades>

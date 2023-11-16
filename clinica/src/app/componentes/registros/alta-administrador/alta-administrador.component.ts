@@ -21,9 +21,13 @@ export class AltaAdministradorComponent {
   formFotos: any;
   especialidadRecuperada: string = "";
   seEligioEspecialidad: boolean = false;
+  captcha: string = '';
  
 
-  constructor(private formBuilder: FormBuilder,private router: Router , public firebase: FirebaseService, private notificacionesSweet: SweetalertService, private notificaciones: NotificacionesService, private storage: Storage) { }
+  constructor(private formBuilder: FormBuilder,private router: Router , public firebase: FirebaseService, private notificacionesSweet: SweetalertService, private notificaciones: NotificacionesService, private storage: Storage) {
+
+    this.captcha = this.GenerarCaptcha(6);
+   }
 
    ngOnInit() {
 
@@ -61,6 +65,12 @@ export class AltaAdministradorComponent {
     return this.formularioAdministrador.get('contraseniaConfirmacionTxt') as FormControl;
   }
 
+  
+  get CaptchaIngresado()
+  {
+    return this.formularioAdministrador.get('captchaIngresado') as FormControl;
+  }
+
 
   public formularioAdministrador = this.formBuilder.group
     (
@@ -73,10 +83,12 @@ export class AltaAdministradorComponent {
         'contraseniaTxt': ['', [Validators.required, this.validarEspaciosVacios, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]],
         'contraseniaConfirmacionTxt': ['', [Validators.required, this.validarEspaciosVacios, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]],
         'fileUnoInput': ['', [Validators.required]],
+        'captchaIngresado': ['', [Validators.required]],
       },
       { validators: this.ValidadorClavesIguales },
 
     );
+
 
 
   validarEspaciosVacios(control: AbstractControl): null | object {
@@ -100,6 +112,20 @@ export class AltaAdministradorComponent {
     }
   }
 
+  GenerarCaptcha(num: number) {
+    const Letras =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let resultado = '';
+     
+    for (let i = 0; i < num; i++) 
+    {
+      resultado += Letras.charAt(
+        Math.floor(Math.random() * Letras.length)
+      );
+    }
+    return resultado;
+  }
+
   async AltaAdministrador() {
     let arrayFotos: [] | any;
     const fileUnoInput = document.getElementById('fileUnoInput') as HTMLInputElement;
@@ -115,57 +141,65 @@ export class AltaAdministradorComponent {
       paths: arrayFotos
     };
 
-    try 
+    if(this.captcha != this.CaptchaIngresado.value)
     {
-      let usuarioNuevo = await this.firebase.RegistrarCorreoClave(administrador, "administrador");
+      this.notificaciones.NotificarConToast('Captcha no coiciden.', 'toast-info');
+    }
+    else
+    {
 
-      if (usuarioNuevo != null) 
+      try 
       {
+        let usuarioNuevo = await this.firebase.RegistrarCorreoClave(administrador, "administrador");
 
-        if (fileUnoInput) 
+        if (usuarioNuevo != null) 
         {
-          const urls: string[] = [];
-
-          const fileUno: FileList | null | any = fileUnoInput.files;
-
-          const imgUnoRef = ref(this.storage, `administradores/${administrador.dni}/${fileUno[0].name}`);
-
-
-          uploadBytes(imgUnoRef, fileUno[0]);
-
-          const urlUno = await getDownloadURL(imgUnoRef);
-
-          urls.push(urlUno);
-
-          administrador.paths = urls;
-
-          this.firebase.AgregarAColeccion(administrador, "administradores");
-
-          this.notificacionesSweet.MostrarMsjSweetAlert("", "Se agrego con exitos", "success");
-
-          this.router.navigateByUrl("bienvenida");  
-
+          
+            if (fileUnoInput) 
+            {
+              const urls: string[] = [];
+    
+              const fileUno: FileList | null | any = fileUnoInput.files;
+    
+              const imgUnoRef = ref(this.storage, `administradores/${administrador.dni}/${fileUno[0].name}`);
+    
+    
+              uploadBytes(imgUnoRef, fileUno[0]);
+    
+              const urlUno = await getDownloadURL(imgUnoRef);
+    
+              urls.push(urlUno);
+    
+              administrador.paths = urls;
+    
+              this.firebase.AgregarAColeccion(administrador, "administradores");
+    
+              this.notificacionesSweet.MostrarMsjSweetAlert("", "Se agrego con exitos", "success");
+    
+              this.router.navigateByUrl("bienvenida");  
+    
+            }
+            else {
+              this.notificaciones.NotificarConToast('Cargar Fotos', "toast-warning");
+            }
+          
         }
         else {
-          this.notificaciones.NotificarConToast('Cargar Fotos', "toast-warning");
+          this.notificaciones.NotificarConToast('Ese correo ya se encuentra en nuestros sistemas.', 'toast-info');
+        }
+
+
+      }
+      catch (error: any) {
+        console.log("entre", error);
+        switch (error.code) {
+          default:
+            this.notificaciones.NotificarConToast('Ese correo ya se encuentra en nuestros sistemas.', 'toast-info');
+            break;
         }
       }
-      else {
-        this.notificaciones.NotificarConToast('Ese correo ya se encuentra en nuestros sistemas.', 'toast-info');
-      }
-
-
     }
-    catch (error: any) {
-      console.log("entre", error);
-      switch (error.code) {
-        default:
-          this.notificaciones.NotificarConToast('Ese correo ya se encuentra en nuestros sistemas.', 'toast-info');
-          break;
-      }
-    }
-  }
-
+}
 
 
   LimpiarCampos() {

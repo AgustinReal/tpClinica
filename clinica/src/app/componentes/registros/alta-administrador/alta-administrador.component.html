@@ -115,7 +115,7 @@
         class="text-danger">El mail es obligatorio
       </span>
       <span *ngIf="formularioAdministrador.controls['mailTxt'].errors?.['pattern']" class="text-danger">
-        El mail social debe tener @, .com .
+        El mail social debe tener  .com .
       </span>
       <span
         *ngIf="formularioAdministrador.controls['mailTxt'].errors?.['containsSpaces'] && formularioAdministrador.controls['mailTxt'].touched"
@@ -161,6 +161,14 @@
         *ngIf="formularioAdministrador.errors?.['diferente'] && formularioAdministrador.controls['contraseniaConfirmacionTxt'].touched && formularioAdministrador.controls['contraseniaTxt'].touched "
         class="text-danger">La confirmacion de la contrseña y la contraseña deben ser iguales.
       </span>
+    </div>
+    <br>
+    <div>
+      <button class="btn btn-dark">{{captcha}}</button>
+      <br>
+      <label for="captchaIngresado">Ingrese CAPTCHA</label>
+      <input formControlName="captchaIngresado" type="password" class="form-control"
+        id="captchaIngresado"  placeholder="Ingrese el captcha" value="" required="Ingrese el captcha">
     </div>
 
 

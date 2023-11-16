@@ -83,12 +83,12 @@ export class ControlUsuariosComponent {
 
   Habilitar(obj: any)
   {
-    this.firebase.ModificarUsuarioEspecialista(obj, "loginHabilitado", true);
+    this.firebase.ModificarUsuario("especialistas", obj, "loginHabilitado", true);
   }
 
   Desabilitar(obj: any)
   {
-    this.firebase.ModificarUsuarioEspecialista(obj, "loginHabilitado", false);
+    this.firebase.ModificarUsuario("especialistas",obj, "loginHabilitado", false);
   }
 
   AgregarEspecialidades(arrayAux: Array<any>)

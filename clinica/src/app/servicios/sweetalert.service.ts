@@ -14,4 +14,6 @@ export class SweetalertService {
   {
     Swal.fire(titulo, mensaje, icono);
   }
+
+  
 }

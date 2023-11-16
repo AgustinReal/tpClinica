@@ -20,6 +20,15 @@ import { TablaEspecialidadesComponent } from './componentes/tabla-especialidades
 import { AltaEspecialistaComponent } from './componentes/registros/alta-especialista/alta-especialista.component';
 import { ControlUsuariosComponent } from './componentes/control-usuarios/control-usuarios.component';
 import { AltaAdministradorComponent } from './componentes/registros/alta-administrador/alta-administrador.component';
+import { MenuPacientesComponent } from './componentes/menus/menu-pacientes/menu-pacientes.component';
+import { SolicitarTurnosComponent } from './componentes/menus/turnos/solicitar-turnos/solicitar-turnos.component';
+import { PerfilPacienteComponent } from './componentes/menus/perfiles/perfil-paciente/perfil-paciente.component';
+import { PerfilEspecialistaComponent } from './componentes/menus/perfiles/perfil-especialista/perfil-especialista.component';
+import { MisTurnosComponent } from './componentes/menus/turnos/mis-turnos/mis-turnos.component';
+import { DatePipe } from '@angular/common';
+import { MisTurnosEspecialistaComponent } from './componentes/menus/mis-turnos-especialista/mis-turnos-especialista.component';
+import { TurnosAdministradorComponent } from './componentes/menus/turnos-administrador/turnos-administrador.component';
+import { SolicitarTurnosAdminComponent } from './componentes/menus/turnos/solicitar-turnos-admin/solicitar-turnos-admin.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +40,15 @@ import { AltaAdministradorComponent } from './componentes/registros/alta-adminis
     TablaEspecialidadesComponent,
     AltaEspecialistaComponent,
     ControlUsuariosComponent,
-    AltaAdministradorComponent
+    AltaAdministradorComponent,
+    MenuPacientesComponent,
+    SolicitarTurnosComponent,
+    PerfilPacienteComponent,
+    PerfilEspecialistaComponent,
+    MisTurnosComponent,
+    MisTurnosEspecialistaComponent,
+    TurnosAdministradorComponent,
+    SolicitarTurnosAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +63,7 @@ import { AltaAdministradorComponent } from './componentes/registros/alta-adminis
     ReactiveFormsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [[DatePipe]],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

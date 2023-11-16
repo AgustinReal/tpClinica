@@ -12,10 +12,31 @@
               <li class="nav-item">
                 <a class="nav-link" *ngIf="!firebase.estaLogueado" routerLink="registro">REGISTRO</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="firebase.estaLogueado && !esEspecialista && !firebase.esAdmin" routerLink="paciente/sacarTurno">SACAR TURNO</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="firebase.estaLogueado && !esEspecialista && !firebase.esAdmin" routerLink="paciente/misTurnos">MIS TURNOS</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="firebase.estaLogueado && !esEspecialista && !firebase.esAdmin" routerLink="paciente/perfil">MI PERFIL</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="firebase.estaLogueado && esEspecialista && !firebase.esAdmin" routerLink="especialista/perfil">MI PERFIL</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="firebase.estaLogueado && esEspecialista " routerLink="especialista/misTurnosEspecialista">MIS TURNOS</a>
+              </li>
+              <li class="nav-item" *ngIf="firebase.esAdmin">
+                <a class="nav-link" routerLink="administracionSacarTurno">SACAR TURNO</a>
+              </li>
               <li class="nav-item" *ngIf="firebase.esAdmin">
                 <a class="nav-link" routerLink="administracionUsuarios">ADMINISTRACIÓN USUARIOS</a>
               </li>
-              <button class="btn btn-warning" (click)="firebase.CerrarSesion()" *ngIf="firebase.estaLogueado">Cerrar sesión</button>
+              <li class="nav-item" *ngIf="firebase.esAdmin">
+                <a class="nav-link" routerLink="administracionPerfiles">ADMINISTRACIÓN TURNOS</a>
+              </li>
+              <button class="btn btn-warning" (click)="CerrarSesion()" *ngIf="firebase.estaLogueado">Cerrar sesión</button>
             </ul>
           </div>
         </div>

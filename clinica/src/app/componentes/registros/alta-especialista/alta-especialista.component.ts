@@ -5,6 +5,7 @@ import { SweetalertService } from 'src/app/servicios/sweetalert.service';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { UpperCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-especialista',
@@ -22,9 +23,13 @@ export class AltaEspecialistaComponent {
   formFotos: any;
   especialidadRecuperada: string = "";
   seEligioEspecialidad: boolean = false;
+  captcha: string = '';
  
 
-  constructor(private formBuilder: FormBuilder, public firebase: FirebaseService, private notificacionesSweet: SweetalertService, private notificaciones: NotificacionesService, private storage: Storage) { }
+  constructor(private formBuilder: FormBuilder, private router:Router, public firebase: FirebaseService, private notificacionesSweet: SweetalertService, private notificaciones: NotificacionesService, private storage: Storage) { 
+
+    this.captcha = this.GenerarCaptcha(6);
+  }
 
    ngOnInit() {
 
@@ -74,6 +79,16 @@ export class AltaEspecialistaComponent {
     return this.formularioEncuestaEspecialista.get("nuevaEspecialidadTxt") as FormControl;
   }
 
+  get EspecialidadOpcional() {
+    return this.formularioEncuestaEspecialista.get("especialidadOpcional") as FormControl;
+  }
+
+  get CaptchaIngresado()
+  {
+    return this.formularioEncuestaEspecialista.get('captchaIngresado') as FormControl;
+  }
+
+
   public formularioEncuestaEspecialista = this.formBuilder.group
     (
       {
@@ -86,6 +101,8 @@ export class AltaEspecialistaComponent {
         'contraseniaConfirmacionTxt': ['', [Validators.required, this.validarEspaciosVacios, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]],
         'fileUnoInput': ['', [Validators.required]],
         'nuevaEspecialidadTxt': ['', [Validators.required, this.validarEspaciosVacios, Validators.pattern('^[A-Za-zÁáÉéÍíÓóÚúÜüÑñ]+$')]],
+        'especialidadOpcional':[],
+        'captchaIngresado': ['', [Validators.required]],
       },
       { validators: this.ValidadorClavesIguales },
 
@@ -101,8 +118,28 @@ export class AltaEspecialistaComponent {
       : null;
   }
 
+  AgregarNuevaEspecialidad(especialidadAux: string)
+  {
+    let objNuevoEspecialista = {
+      especialidad: especialidadAux
+    };
 
+     this.firebase.AgregarAColeccion(objNuevoEspecialista, "especialidades");
+  }
 
+  GenerarCaptcha(num: number) {
+    const Letras =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let resultado = '';
+     
+    for (let i = 0; i < num; i++) 
+    {
+      resultado += Letras.charAt(
+        Math.floor(Math.random() * Letras.length)
+      );
+    }
+    return resultado;
+  }
 
   ValidadorClavesIguales(group: FormGroup): null | object {
     const claveIngreso: string = group.get('contraseniaTxt')?.value;
@@ -116,22 +153,51 @@ export class AltaEspecialistaComponent {
     }
   }
 
-  async AltaEspecialista() {
-    let arrayFotos: [] | any;
+  async AltaEspecialista()
+  {
+    if(this.captcha != this.CaptchaIngresado.value)
+    {
+      this.notificaciones.NotificarConToast('Captcha no coiciden.', 'toast-info');
+    }
+    else
+    {
+      let arrayFotos: [] | any;
+    let arrayEspecialidades : string [] = []; 
     const fileUnoInput = document.getElementById('fileUnoInput') as HTMLInputElement;
 
     let especialidadAux = this.NuevaEspecialidadTxt.value;
     especialidadAux = especialidadAux.toLowerCase();
-    
 
-    if (await !this.firebase.ConsultarEspecialidadExiste(especialidadAux)) 
+    let especialidadOpcionalAux = this.EspecialidadOpcional.value;
+
+    if(this.EspecialidadOpcional.value != null)
     {
-      let objNuevoEspecialista = {
-        especialidad: especialidadAux
-      };
 
-      await this.firebase.AgregarAColeccion(objNuevoEspecialista, "especialidades");
+      especialidadOpcionalAux = especialidadOpcionalAux.toLowerCase();
     }
+
+    const existeEspecialidad = await this.firebase.ConsultarEspecialidadExiste(especialidadAux);
+
+    if(this.EspecialidadOpcional.value != null)
+    {
+      const existeEspecialidadOpcional = await this.firebase.ConsultarEspecialidadExiste(especialidadOpcionalAux);
+
+      if (!existeEspecialidadOpcional) 
+      {
+        this.AgregarNuevaEspecialidad(especialidadOpcionalAux);
+      }
+
+      arrayEspecialidades.push(especialidadOpcionalAux);
+    }
+
+    if (!existeEspecialidad) 
+    {
+      this.AgregarNuevaEspecialidad(especialidadAux);
+    }
+
+
+    arrayEspecialidades.push(especialidadAux);
+
 
     let especialista = {
       nombre: this.NombreTxt.value,
@@ -140,13 +206,13 @@ export class AltaEspecialistaComponent {
       dni: this.DniTxt.value,
       mail: this.MailTxt.value,
       contrasenia: this.ContraseniaTxt.value,
-      especialidad: especialidadAux,
+      especialidad: arrayEspecialidades,
       loginHabilitado: false,
       paths: arrayFotos
     };
 
     try {
-      let usuarioNuevo = await this.firebase.RegistrarCorreoClave(especialista, "especialista");
+     let usuarioNuevo = await this.firebase.RegistrarCorreoClave(especialista, "especialista");
 
       if (usuarioNuevo != null) 
       {
@@ -168,12 +234,15 @@ export class AltaEspecialistaComponent {
 
           especialista.paths = urls;
 
-          this.firebase.AgregarAColeccion(especialista, "especialistas");
+         this.firebase.AgregarAColeccion(especialista, "especialistas");
 
           this.notificacionesSweet.MostrarMsjSweetAlert("", "Se agrego con exitos", "success");
 
+          this.router.navigateByUrl("login");
+
         }
-        else {
+        else 
+        {
           this.notificaciones.NotificarConToast('Cargar Fotos', "toast-warning");
         }
       }
@@ -181,7 +250,6 @@ export class AltaEspecialistaComponent {
       {
         this.notificaciones.NotificarConToast('Ese correo ya se encuentra en nuestros sistemas.', 'toast-info');
       }
-
 
     }
     catch (error: any) {
@@ -192,6 +260,8 @@ export class AltaEspecialistaComponent {
           break;
       }
     }
+    }
+    
   }
 
 

@@ -1,0 +1,40 @@
+    <div class="Pantalla card-header row  " style="background-color: rgb(34, 44, 44);">
+        
+        <div class="separacionUno col-md-3 col-lg-3" >
+            <div class="card  m-2" style="width: 25rem; background-color: rgb(45, 124, 170);" >
+                <img src="{{usuario[0].paths[0]}}" style="height: 300px; width: 397px;"  class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Mail: {{usuario[0].mail}}</h5>
+                    <p class="card-text">Nombre: {{usuario[0].nombre}}</p>
+                    <p class="card-text">Apellido: {{usuario[0].apellido}}</p>
+                    <p class="card-text">Dni: {{usuario[0].dni}}</p>
+                    <p class="card-text">Edad: {{usuario[0].edad}}</p>
+                    <p class="card-text">Especialidad: </p>
+                    <button class="btn btn-dark m-2" (click)="AtraparEspecialidad(especialistaAux)" style="width: 360px; height: 60px; background-color: rgb(204, 216, 43); border-radius: 30px;"  *ngFor="let especialistaAux of usuario[0].especialidad">{{especialistaAux}}</button>
+                </div> 
+            </div>
+          </div>
+        
+          <div class="separacionUno col-md-9 col-lg-9">
+            <h1 style="font-size: 80px;  text-align: center; color: aliceblue;">{{especialidadAux}}</h1>
+            <h3 style="font-size: 60px;  text-align: center; color: aliceblue;">DIAS DISPONIBLES</h3>
+            <br>
+            <div class="row justify-content-center" >
+                  <div class="col-2"  *ngFor="let dia of arrayDiasSeleccionados; index as i">
+                      <button type="button" 
+                      class="btn btn-dark btnDifEspecialista m-1" (click)="SeleccionarDia(dia)" *ngIf="!dia.trabaja">
+                      {{dia.dia}}</button>
+                      <button type="button" 
+                      class="btn btn-dark btnDifEspecialista2 m-1" (click)="SeleccionarDia(dia)" *ngIf="dia.trabaja" disabled>
+                      {{dia.dia}}</button>
+                  </div>
+                  <br>
+                  <h1 style="font-size: 80px;  padding: 1rem; text-align: center; color: aliceblue;">CARGA HORARIA MINUTOS</h1>
+                  <div class="d-flex justify-content-center" style="padding: 1rem;">
+                    <input [(ngModel)]="minutos" type="number">
+                    <button class="btn-dark" (click)="AltaTurno()" style="border-radius: 10px; background-color: rgb(218, 16, 16); color: aliceblue;">CONFIRMAR</button>
+                  </div>
+              </div>
+          </div>
+    </div>
+

@@ -1,0 +1,55 @@
+<div class="pantalla-principal justify-content-center" style="padding: 2rem;">
+    <div class="card text-center contenedor-carta view-from-right" style="padding: 3rem;">
+        <div class="card-header" style="background-color: rgb(95, 186, 228);">
+            <h1>DOCTOR: {{usuario[0]?.apellido}} {{usuario[0]?.nombre}} </h1>
+            <div class="row justify-content-center">
+                <div class="col-2 " style="background-color: rgb(117, 117, 117); border-radius: 10px; margin: 1rem;">
+                    <h1>FILTRAR</h1>
+                    <input type="text" [(ngModel)]="textoIngresado" (keyup)="FiltrarBusqueda()">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card-header tablet" style="background-color: rgb(95, 186, 228);">
+            <h1 style="text-align: center;"> MIS TURNOS</h1>
+            <table class="table table-success table-striped" style="border-radius: 30px;">
+                <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">PACIENTE</th>
+                      <th scope="col">ESPECIALIDAD</th>
+                      <th scope="col">MAIL</th>
+                      <th scope="col">FECHA</th>
+                      <th scope="col">HORARIO</th>
+                      <th scope="col">ESTADO TURNO</th>
+                      <th scope="col">PACIENTE INFORMA</th>
+                      <th scope="col">ACCIONES SOBRE EL PACIENTE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let filtrar of this.turnosFiltrados; index as i">
+                      <td >{{i}}</td>
+                      <td>{{filtrar?.paciente.apellido + " " + filtrar?.paciente.nombre}}</td>
+                      <td>{{filtrar?.especialista}}</td>
+                      <td>{{filtrar?.paciente.mail}}</td>
+                      <td>{{obtenerFechaFormateada(filtrar?.dia)}}</td>
+                      <td>{{filtrar?.horario}}</td>
+                      <td><p>{{filtrar?.estadoTurno}}</p></td>
+                      <td>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'finalizado'" (click)="MostrarEncuesta(filtrar)" style="background-color: rgb(255, 0, 221); color: rgb(253, 229, 229);">VER ENCUESTA</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'finalizado'" (click)="MostrarCalificacion(filtrar)" style="background-color: rgb(0, 153, 255); color: rgb(2, 2, 2);">VER CALIFICACIÓN</button>
+                      </td>
+                      <td>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'solicitado'" (click)="CancelarTurno(filtrar)" style="background-color: rgb(255, 0, 0); color: black;">NO ACEPTAR</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'solicitado'" (click)="AceptarTurno(filtrar)" style="background-color: rgb(52, 233, 35); color: black;">ACEPTAR</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'aceptado'" (click)="RechazarTurno(filtrar)" style="background-color: rgb(255, 0, 0); color: rgb(253, 229, 229);">RECHAZAR TURNO</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'aceptado'" (click)="FinalizarTurno(filtrar)" style="background-color: rgb(123, 255, 0); color: rgb(2, 2, 2);">FINALIZAR TURNO</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'cancelado'"  style="background-color: rgb(94, 18, 129); color: rgb(241, 234, 234);">{{filtrar?.comentario}}</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'finalizado'" (click)="MostrarHistorialMedico(filtrar)" style="background-color: rgb(69, 204, 175); color: rgb(14, 13, 13);">HISTORIAL MEDICO</button>
+                      </td>
+                    </tr> 
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>

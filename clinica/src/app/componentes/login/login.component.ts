@@ -129,7 +129,13 @@ export class LoginComponent {
 
   RellenarEspecialista()
   {
-    this.correoTxt ="cuzowopaufo-4769@yopmail.com";
+    this.correoTxt ="joppimulloge-3128@yopmail.com";
+    this.password ="Easports2";
+  }
+
+  RellenarEspecialista2()
+  {
+    this.correoTxt ="fugissovabro-9715@yopmail.com";
     this.password ="Easports2";
   }
 
@@ -139,11 +145,16 @@ export class LoginComponent {
     this.password ="Easports2";
   }
   
-  
-  RellenarProfAgustin()
+  RellenarPaciente2()
   {
-    this.correoTxt ="agustin@agustin.com";
-    this.password ="333333";
+    this.correoTxt ="nasefeheufi-7388@yopmail.com";
+    this.password ="Easports2";
+  }
+
+  RellenarPaciente3()
+  {
+    this.correoTxt ="covabaufreveu-3482@yopmail.com";
+    this.password ="Easports2";
   }
 
 

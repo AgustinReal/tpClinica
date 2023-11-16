@@ -21,8 +21,11 @@ export class RegistroComponent {
   foto1Url: string = '../../../assets/imagenes/registro/altaPaciente/clinicaIngreseFoto.png';
   file: any;
   formFotos: any;
+  captcha: string = '';
 
-  constructor(private formBuilder: FormBuilder, private router: Router,public firebase: FirebaseService, private notificacionesSweet: SweetalertService, private notificaciones: NotificacionesService, private storage: Storage) { }
+  constructor(private formBuilder: FormBuilder, private router: Router,public firebase: FirebaseService, private notificacionesSweet: SweetalertService, private notificaciones: NotificacionesService, private storage: Storage) {
+    this.captcha = this.GenerarCaptcha(6);
+   }
 
 
   Seleccionar(num: number)
@@ -75,6 +78,11 @@ export class RegistroComponent {
     return this.formularioEncuesta.get('contraseniaConfirmacionTxt') as FormControl;
   }
 
+  get CaptchaIngresado()
+  {
+    return this.formularioEncuesta.get('captchaIngresado') as FormControl;
+  }
+
   public formularioEncuesta = this.formBuilder.group(
     {
       'nombreTxt': ['', [Validators.required, this.validarEspaciosVacios, Validators.pattern('^[A-Za-zÁáÉéÍíÓóÚúÜüÑñ]+$')]],
@@ -87,6 +95,7 @@ export class RegistroComponent {
       'contraseniaConfirmacionTxt': ['', [Validators.required, this.validarEspaciosVacios, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]],
       'fileUnoInput': ['', [Validators.required]],
       'fileDosInput': ['', [Validators.required]],
+      'captchaIngresado': ['', [Validators.required]],
     }, 
     {validators : this.ValidadorClavesIguales},
   );
@@ -99,6 +108,8 @@ export class RegistroComponent {
       ? { containsSpaces: true }
       : null;
   }
+
+
 
   ValidadorClavesIguales(group: FormGroup): null | object
   {
@@ -149,45 +160,52 @@ export class RegistroComponent {
     
     try 
     {
-      let usuarioNuevo = await  this.firebase.RegistrarCorreoClave(paciente, "paciente");
-
-      if(usuarioNuevo != null )
+      if(this.captcha != this.CaptchaIngresado.value)
       {
-        if(fileUnoInput && fileDosInput)
-        {
-          const urls: string[] = [];
-    
-          const fileUno: FileList | null | any = fileUnoInput.files;
-          const fileDos: FileList | null | any  = fileDosInput.files;
-    
-          const imgUnoRef = ref(this.storage, `pacientes/${paciente.dni}/${fileUno[0].name}`);
-          const imgDosRef = ref(this.storage, `pacientes/${paciente.dni}/${fileDos[0].name}`);
-    
-    
-          await uploadBytes(imgUnoRef, fileUno[0]);
-          await uploadBytes(imgDosRef, fileDos[0]);
-    
-          const urlUno = await getDownloadURL(imgUnoRef);
-          const urlDos = await getDownloadURL(imgDosRef);
-    
-          urls.push(urlUno);
-          urls.push(urlDos);
-          
-          paciente.paths = urls;
-        
-          this.firebase.AgregarAColeccion(paciente, "paciente");
-    
-          this.notificacionesSweet.MostrarMsjSweetAlert("","Se agrego con exitos", "success");
-          this.router.navigateByUrl("bienvenida");  
-        }
-        else
-        {
-          this.notificaciones.NotificarConToast('Cargar Fotos', "toast-warning");
-        }
+        this.notificaciones.NotificarConToast('Captcha no coiciden.', 'toast-info');
       }
       else
       {
-        this.notificaciones.NotificarConToast('Ese correo ya se encuentra en nuestros sistemas.', 'toast-info');
+        let usuarioNuevo = await this.firebase.RegistrarCorreoClave(paciente, "paciente");
+  
+        if(usuarioNuevo != null )
+        {
+          if(fileUnoInput && fileDosInput)
+          {
+            const urls: string[] = [];
+      
+            const fileUno: FileList | null | any = fileUnoInput.files;
+            const fileDos: FileList | null | any  = fileDosInput.files;
+      
+            const imgUnoRef = ref(this.storage, `pacientes/${paciente.dni}/${fileUno[0].name}`);
+            const imgDosRef = ref(this.storage, `pacientes/${paciente.dni}/${fileDos[0].name}`);
+      
+      
+            await uploadBytes(imgUnoRef, fileUno[0]);
+            await uploadBytes(imgDosRef, fileDos[0]);
+      
+            const urlUno = await getDownloadURL(imgUnoRef);
+            const urlDos = await getDownloadURL(imgDosRef);
+      
+            urls.push(urlUno);
+            urls.push(urlDos);
+            
+            paciente.paths = urls;
+          
+            await this.firebase.AgregarAColeccion(paciente, "paciente");
+      
+            this.notificacionesSweet.MostrarMsjSweetAlert("","Se agrego con exitos", "success");
+            this.router.navigateByUrl("bienvenida");  
+          }
+          else
+          {
+            this.notificaciones.NotificarConToast('Cargar Fotos', "toast-warning");
+          }
+        }
+        else
+        {
+          this.notificaciones.NotificarConToast('Ese correo ya se encuentra en nuestros sistemas.', 'toast-info');
+        }
       }
     }
     catch(error: any)
@@ -201,6 +219,20 @@ export class RegistroComponent {
     }
   }
 
+  GenerarCaptcha(num: number) {
+    const Letras =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let resultado = '';
+     
+    for (let i = 0; i < num; i++) 
+    {
+      resultado += Letras.charAt(
+        Math.floor(Math.random() * Letras.length)
+      );
+    }
+    return resultado;
+  }
+  
 
 }
 

@@ -1,0 +1,59 @@
+<div class="pantalla-principal justify-content-center" style="padding: 2rem;">
+    <div class="card text-center contenedor-carta view-from-right" style="padding: 3rem;">
+        <div class="card-header" style="background-color: rgb(95, 186, 228);">
+            <h1>PACIENTE: {{usuario[0]?.apellido}} {{usuario[0]?.nombre}} OBRA SOCIAL: {{usuario[0]?.obraSocial}}</h1>
+            <div class="row justify-content-center">
+                <div class="col-2 " style="background-color: rgb(117, 117, 117); border-radius: 10px; margin: 1rem;">
+                    <h1>FILTRAR</h1>
+                    <input type="text" [(ngModel)]="textoIngresado" (keyup)="FiltrarBusqueda()">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card-header" style="background-color: rgb(95, 186, 228);">
+            <h1 style="text-align: center;"> HISTORIAL MEDICO</h1>
+            <div>
+
+            </div>
+            <h1 style="text-align: center;"> MIS TURNOS</h1>
+            <table class="table table-success table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">DOCTOR</th>
+                      <th scope="col">MAIL</th>
+                      <th scope="col">FECHA</th>
+                      <th scope="col">HORARIO</th>
+                      <th scope="col">ESPECIALIDAD</th>
+                      <th scope="col">ESTADO TURNO</th>
+                      <th scope="col">DOCTOR INFORMA</th>
+                      <th scope="col">ACCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let filtrar of this.turnosFiltrados; index as i">
+                      <td >{{i}}</td>
+                      <td>{{filtrar?.doctor.apellido + " " + filtrar?.doctor.nombre}}</td>
+                      <td>{{filtrar?.doctor.mail}}</td>
+                      <td>{{obtenerFechaFormateada(filtrar?.dia)}}</td>
+                      <td>{{filtrar?.horario}}</td>
+                      <td>{{filtrar?.especialista}}</td>
+                      <td><p>{{filtrar?.estadoTurno}}</p></td>
+                      <td>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'solicitado'" (click)="CancelarTurno(filtrar)" style="background-color: rgb(255, 0, 0); color: black;">CANCELAR TURNO</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'finalizado'" (click)="MostrarResenia(filtrar)" style="background-color: rgb(21, 100, 153); color: rgb(247, 243, 243);">RESEÑA</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'finalizado'" (click)="MostrarHistorialMedico(filtrar)" style="background-color: rgb(69, 204, 175); color: rgb(14, 13, 13);">HISTORIAL MEDICO</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'no aceptado'"  style="background-color: rgb(94, 18, 129); color: rgb(241, 234, 234);">{{filtrar?.comentario}}</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'rechazado'"  style="background-color: rgb(18, 85, 129); color: rgb(241, 234, 234);">{{filtrar?.comentario}}</button>
+
+                      </td>
+                      <td>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'finalizado'" (click)="HacerEncuesta(filtrar)" style="background-color: rgb(107, 153, 21); color: rgb(247, 243, 243);">ENCUESTA</button>
+                        <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'finalizado'" (click)="CalificarAtencipn(filtrar)" style="background-color: rgb(195, 204, 69); color: rgb(14, 13, 13);">CALIFICAR ATENCIÓN</button>
+                      </td>
+                    </tr> 
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>

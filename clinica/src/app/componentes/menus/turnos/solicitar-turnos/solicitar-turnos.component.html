@@ -1,0 +1,43 @@
+<div class="pantalla-principal justify-content-center ">
+    <div class="card text-center contenedor-carta view-from-right" style="padding: 2rem;">
+        <div class="card-header row" style="background-color: rgb(95, 186, 228); padding: 2rem;">
+          
+          <div class="col-2"  *ngFor="let especialistaAux of arrayEspecilistas; index as i">
+              <button type="button" 
+              class="btn btn-outline-warning  btnDifEspecialista " (click)="AtraparDoctor(especialistaAux)">
+              <img src="{{especialistaAux.paths}}">
+              <p>{{especialistaAux.nombre}}</p>
+              <p *ngFor="let especialidad of especialistaAux.especialidad">{{especialidad}}</p>
+            </button>
+            <br>
+          </div>
+          <div class="row justify-content-center" style="padding: 1rem;" *ngIf="seEligioDoctor">
+            <h1 style="text-align: center; color: aliceblue;">ESPECIALISTAS</h1>
+              <div class="col-2"  *ngFor="let especialistaAux of doctorSeleccionado.especialidad; index as i">
+                  <button type="button" 
+                  class="btn btn-outline-warning  btnDifEspecialista" (click)="AtraparEspecialidad(especialistaAux)">
+                  <p>{{especialistaAux}}</p>
+                  </button>
+              </div>
+          </div>
+          <div class="row justify-content-center" style="padding: 1rem;" *ngIf="seEligioEspecialidad ">
+            <h1 style="text-align: center; color: aliceblue;">DIAS DISPONIBLES</h1>
+              <div class="col-2"  *ngFor="let dia of arrayDias; index as i">
+                  <button type="button" 
+                  class="btn btn-outline-warning  btnDifEspecialista"  (click)="AtraparDia(dia)">
+                  {{dia | date:'dd-MM-yyyy'}}</button>
+              </div>
+          </div>
+          <div class="row justify-content-center" style="padding: 1rem;" *ngIf="seEligioEspecialidad && seEligioDia">
+            <h1 style="text-align: center; color: aliceblue;">HORARIOS DISPONIBLES</h1>
+              <div class="col-2"  *ngFor="let hora of atraparHorarios; index as i">
+                  <button type="button" 
+                  class="btn btn-outline-warning  btnDifEspecialista"  (click)="AtraparHorario(hora)">
+                  {{hora }}</button>
+              </div>
+          </div>
+        </div>
+    </div>
+
+
+</div>
