@@ -1,15 +1,17 @@
-<div class="pantalla-principal justify-content-center" style="padding: 2rem;" >
-    <div class="card text-center contenedor-carta view-from-right" style="padding: 3rem;">
+<div class="pantalla-principal justify-content-center" style="padding: 1rem;" >
+    <div class="card text-center contenedor-carta view-from-right"  >
         <div class="card-header" style="background-color: rgb(95, 186, 228);">
             <div class="row justify-content-center">
-                <div class="col-2 " style="background-color: rgb(117, 117, 117); border-radius: 10px; margin: 1rem;">
-                    <h1>FILTRAR</h1>
+                <div class="col-2 " style="background-color: rgb(117, 117, 117); border-radius: 10px; margin: 1rem; width: 33rem;">
+                    <h1>FILTRAR TURNOS USUARIOS</h1>
                     <input type="text" [(ngModel)]="textoIngresado" (keyup)="FiltrarBusqueda()">
+                    <button class="btn btn-dark m-1"  (click)="ExcelFileTurno(usuarios, 'ListadoUsuarios')" style="background-color: rgb(123, 204, 69); color: rrgb(248, 248, 248)">DESCARGAR EXCEL</button>
+
                 </div>
             </div>
         </div>
         <br>
-        <div class="card-header" style="background-color: rgb(95, 186, 228);">
+        <div class="card-header" style="background-color: rgb(95, 186, 228); padding: 1rem; max-height: 550px; overflow-y: auto;">
             <h1 style="text-align: center;"> MIS TURNOS</h1>
             <table class="table table-success table-striped">
                 <thead>
@@ -23,6 +25,13 @@
                       <th scope="col">ESPECIALIDAD</th>
                       <th scope="col">ESTADO TURNO</th>
                       <th scope="col">ACCIONES</th>
+                      <th scope="col">ALTURA</th>
+                      <th scope="col">PESO</th>
+                      <th scope="col">TEMPERATURA</th>
+                      <th scope="col">PRESION</th>
+                      <th scope="col">CLAVE 1 - VALOR 1</th>
+                      <th scope="col">CLAVE 2 - VALOR 2</th>
+                      <th scope="col">CLAVE 3 - VALOR 3</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -36,11 +45,20 @@
                       <td>{{filtrar.especialista}}</td>
                       <td><p>{{filtrar.estadoTurno}}</p></td>
                       <td>
-                         <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'aceptado'" (click)="CancelarTurno(filtrar)" style="background-color: rgb(204, 69, 69); color: rrgb(248, 248, 248)">CANCELAR TURNO</button>
+                          <button class="btn btn-dark m-1" *ngIf="filtrar?.estadoTurno == 'aceptado'" (click)="CancelarTurno(filtrar)" style="background-color: rgb(204, 69, 69); color: rrgb(248, 248, 248)">CANCELAR TURNO</button>
+                      </td>
+                      <td *ngIf="filtrar.estadoTurno =='finalizado'">{{filtrar.historialMedico.altura}}</td>
+                      <td *ngIf="filtrar.estadoTurno =='finalizado'">{{filtrar.historialMedico.peso}}</td>
+                      <td *ngIf="filtrar.estadoTurno =='finalizado'">{{filtrar.historialMedico.temperatura}}</td>
+                      <td *ngIf="filtrar.estadoTurno =='finalizado'">{{filtrar.historialMedico.presion}}</td>
+                      <td *ngIf="filtrar.estadoTurno =='finalizado'">{{filtrar.historialMedico.clave1}} : {{filtrar.historialMedico.valor1}}</td>
+                      <td *ngIf="filtrar.estadoTurno =='finalizado'">{{filtrar.historialMedico.clave2}} : {{filtrar.historialMedico.valor2}}</td>
+                      <td *ngIf="filtrar.estadoTurno =='finalizado'">{{filtrar.historialMedico.clave3}} : {{filtrar.historialMedico.valor3}}</td>
                     </tr> 
                   </tbody>
             </table>
         </div>
+           
     </div>
 </div>
 

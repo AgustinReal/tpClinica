@@ -79,7 +79,6 @@ export class LoginComponent {
       }
       else
       {
-        console.log("esta habilitado");
         if(this.correoTxt == "octavio@octavio.com" || this.correoTxt == "agustin@agustin.com")
         {
           auxRol = "administrador";
@@ -95,6 +94,7 @@ export class LoginComponent {
         }
         else
         {
+          this.firebase.GuardarRegistro(this.correoTxt, auxRol);
           this.notificacionesSweet.MostrarMsjSweetAlert("","Bienvenido", "success");
           this.router.navigateByUrl("bienvenida");  
         }
@@ -121,41 +121,6 @@ export class LoginComponent {
     }
   }
 
-  RellenarProfOctavio()
-  {
-    this.correoTxt ="octavio@octavio.com";
-    this.password ="111111";
-  }
-
-  RellenarEspecialista()
-  {
-    this.correoTxt ="joppimulloge-3128@yopmail.com";
-    this.password ="Easports2";
-  }
-
-  RellenarEspecialista2()
-  {
-    this.correoTxt ="fugissovabro-9715@yopmail.com";
-    this.password ="Easports2";
-  }
-
-  RellenarPaciente()
-  {
-    this.correoTxt ="hazapettonne-8038@yopmail.com";
-    this.password ="Easports2";
-  }
-  
-  RellenarPaciente2()
-  {
-    this.correoTxt ="nasefeheufi-7388@yopmail.com";
-    this.password ="Easports2";
-  }
-
-  RellenarPaciente3()
-  {
-    this.correoTxt ="covabaufreveu-3482@yopmail.com";
-    this.password ="Easports2";
-  }
 
 
   BuscarRol(arrayAux: Array<any>): string
@@ -173,5 +138,10 @@ export class LoginComponent {
     return rol;
   }
 
+  atrapado($event: any)
+  {
+    this.correoTxt = $event.mail;
+    this.password = $event.contrasenia;
+  }
 
 }

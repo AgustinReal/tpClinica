@@ -117,6 +117,9 @@ export class MisTurnosComponent {
             <th scope="col">PESO</th>
             <th scope="col">PRESION</th>
             <th scope="col">SEXO</th>
+            <th scope="col">CLAVE 1 - VALOR 1</th>
+            <th scope="col">CLAVE 2 - VALOR 2</th>
+            <th scope="col">CLAVE 3 - VALOR 3</th>
           </tr>
         </thead>
         <tbody>
@@ -127,6 +130,9 @@ export class MisTurnosComponent {
             <td>${turnoPaciente.historialMedico.peso}</td>
             <td>${turnoPaciente.historialMedico.presion}</td>
             <td>${turnoPaciente.historialMedico.sexo}</td>
+            <td>${turnoPaciente.historialMedico.clave1} : ${turnoPaciente.historialMedico.valor1}</td>
+            <td>${turnoPaciente.historialMedico.clave2} : ${turnoPaciente.historialMedico.valor2}</td>
+            <td>${turnoPaciente.historialMedico.clave3} : ${turnoPaciente.historialMedico.valor3}</td>
             </tr> 
         </tbody>
   </table>

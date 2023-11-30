@@ -1,0 +1,56 @@
+<div class="Pantalla" style="background-color: rgb(36, 157, 194); overflow-y: auto; border-collapse: collapse;">
+    <div>
+        <div class="grafico-section" id="graficoCantDiasTurnos" style=" margin-top: 1.5rem;">
+    
+        </div>
+        <div class="botones-section justify-content-center" style=" margin-top: 1.5rem;">
+            <button class="btnDifEspecialista" (click)="crearPDF('graficoCantDiasTurnos')">Descargar</button>
+            <br>
+        </div>
+    </div>
+    
+    <div class="grafico-section" id="graficoIdAux" style=" margin-top: 1.5rem;">
+
+    </div>
+    <div class="botones-section justify-content-center" style=" margin-top: 1.5rem;">
+        <button class="btnDifEspecialista" (click)="crearPDF('graficoCantidadTurnosEspecialidad')">Descargar PDF</button>
+    </div>
+    <br>
+    <div  style="width: 78.5vw; height: 50vh; overflow-y: auto; border-collapse: collapse;">
+        <div class="card-header tablet" style="background-color: rgb(95, 186, 228);">
+            <h1 style="text-align: center;"> LOGUEOS</h1>
+            <br>
+            <div class="d-flex justify-content-center" style=" margin-top: 1.5rem;">
+                <button class="btnDifEspecialista" (click)="ExcelFileTurno(arrayLogs, 'ListadoUsuariosLogueados')">Descargar EXCEL</button>
+            </div>
+            <br>
+            <table class="table table-success table-striped" style="border-radius: 30px;">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">MAIL</th>
+                        <th scope="col">FECHA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of this.arrayLogs; index as i">
+                        <td >{{i}}</td>
+                        <td >{{log.mail}}</td>
+                        <td >{{log.fecha}}</td>
+                    </tr> 
+                  </tbody>
+            </table>
+        </div> 
+    </div>
+    
+    <div class="grafico-section" id="graficoCantidadTurnosSolicitadoPorLapsoTiempo" style=" margin-top: 1.5rem;">
+
+    </div>
+    <div class="d-flex justify-content-center" style=" margin-top: 1.5rem;">
+        <button class="btnDifEspecialista" >Descargar PDF</button>
+        <br>
+        <button class="btn btn-dark m-2" (click)="EligirCantidadDias(7)">Desde 7 dias</button>
+        <br>
+        <button class="btn btn-dark m-2" (click)="EligirCantidadDias(15)">Desde 15 dias</button>
+    </div>
+</div>

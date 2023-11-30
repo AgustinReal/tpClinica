@@ -29,6 +29,9 @@ import { DatePipe } from '@angular/common';
 import { MisTurnosEspecialistaComponent } from './componentes/menus/mis-turnos-especialista/mis-turnos-especialista.component';
 import { TurnosAdministradorComponent } from './componentes/menus/turnos-administrador/turnos-administrador.component';
 import { SolicitarTurnosAdminComponent } from './componentes/menus/turnos/solicitar-turnos-admin/solicitar-turnos-admin.component';
+import { AccesoRapidosComponent } from './componentes/acceso-rapidos/acceso-rapidos.component';
+import { GraficosComponent } from './componentes/graficos/graficos.component';
+import { CambiarColorBotonDirective } from './directivas/cambiar-color-boton.directive';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { SolicitarTurnosAdminComponent } from './componentes/menus/turnos/solici
     MisTurnosComponent,
     MisTurnosEspecialistaComponent,
     TurnosAdministradorComponent,
-    SolicitarTurnosAdminComponent
+    SolicitarTurnosAdminComponent,
+    AccesoRapidosComponent,
+    GraficosComponent,
+    CambiarColorBotonDirective
   ],
   imports: [
     BrowserModule,

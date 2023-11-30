@@ -78,3 +78,16 @@ h1
     opacity: 0.75;
     border-radius: 50px;
 }
+
+app-acceso-rapidos {
+    display: flex;
+    justify-content: flex-end; /* o utiliza otra propiedad como "space-around" o "space-evenly" */
+    align-items: center;
+  }
+  
+  .boton {
+    padding: 10px;
+    margin: 5px;
+  }
+
+  

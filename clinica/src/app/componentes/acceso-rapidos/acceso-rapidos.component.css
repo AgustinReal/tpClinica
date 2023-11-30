@@ -1,0 +1,22 @@
+.botonAccesoRapido
+{
+    background-color: #49bbca;
+    opacity: 0.75;
+    border-radius: 50px;
+}
+
+.foto{
+    height: 80px;
+    width: 100px;
+} 
+
+.row {
+    display: flex;
+    justify-content: space-between; /* Puedes ajustar esto según tus necesidades */
+    align-items: center;
+  }
+  
+  .boton {
+    padding: 10px;
+    margin: 5px;
+  }

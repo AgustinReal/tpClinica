@@ -1,0 +1,45 @@
+.Pantalla
+{
+    /* background-image: url("../../../assets/imagenes/login/clinicaRegistro.jpg");  */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    width: 100vw;
+} 
+
+.tablet {
+    margin: 0 auto;
+    border-radius: 30px;
+    opacity: 0.95;
+    box-shadow: 0 0 16px #fbff2d;
+
+} 
+
+
+
+  .container {
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
+    gap: 10px; /* Espacio entre las secciones */
+    padding: 10px; /* Espacio alrededor del contenedor */
+  }
+  
+  .grafico-section {
+    /* Estilos para la sección del gráfico */
+    background-color: rgb(168, 213, 231);
+    border: 1px solid #ddd; 
+    padding: 10px;
+    text-align: center;
+    width: 78.5vw;
+    height: 50vh;
+    border-radius: 30px;
+  }
+
+  .btnDifEspecialista{
+    background-color: rgb(45, 124, 170);
+    border-radius: 40px;
+    box-shadow: 0 0 16px #e9fc42;
+    width: 170px;
+    height: 60px;
+}

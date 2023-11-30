@@ -2,10 +2,10 @@
     
     <br/>
     <div class="d-flex justify-content-center" >
-    <h1 class="letrasIniciarSesion">Iniciar sesión</h1>
+        <h1 class="letrasIniciarSesion">Iniciar sesión</h1>
     </div>
     <br/> 
-
+    
     <br/>   
     <br/>     
     <div class="d-flex justify-content-center" >
@@ -24,40 +24,17 @@
             <img [src]="imagenOjo" class="ojo" alt="">
         </button>
     </div>  
- 
+    
     <br/>
     <br/>
     <div class="d-flex justify-content-center" >
         <button type="button" (click)="Ingreso()" class="btn btn-dark m-1  botonAcceso">Iniciar sesión</button>
-
+        
         <button type="button" (click)="LimpiarCampos()" class="btn btn-dark m-1 botonAcceso">Limpiar</button>
     </div>
+    <br>
 
+        <app-acceso-rapidos (eventUsuario)="atrapado($event)"></app-acceso-rapidos>
+    
     <br/>
-    <div class="d-flex justify-content-end"  > 
-
-        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarProfOctavio()"> 
-        <img style="border-radius: 30px;" src="../../../assets/imagenes/login/accesoRapido/boss.png" class="foto">
-        </button> 
-
-        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarEspecialista()"> 
-        <img style="border-radius: 30px;" src="../../../assets/imagenes/fotosAccesoRapidos/parte14.png" class="foto">
-        </button> 
-
-        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarEspecialista2()"> 
-            <img style="border-radius: 30px;" src="../../../assets/imagenes/fotosAccesoRapidos/parte10.jpg" class="foto">
-            </button> 
-
-        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarPaciente()"> 
-            <img style="border-radius: 30px;" src="../../../assets/imagenes/fotosAccesoRapidos/tigre.png" class="foto">
-        </button> 
-        
-        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarPaciente2()"> 
-            <img style="border-radius: 30px;" src="../../../assets/imagenes/fotosAccesoRapidos/estrella.png" class="foto">
-        </button> 
-
-        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="RellenarPaciente3()"> 
-            <img style="border-radius: 30px;" src="../../../assets/imagenes/fotosAccesoRapidos/rakiticcc.jpg" class="foto">
-        </button>   
-    </div>   
 </div>

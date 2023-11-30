@@ -6,6 +6,8 @@ import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { formatDate } from '@angular/common';
 import { SweetalertService } from './sweetalert.service';
+import * as moment from 'moment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -183,6 +185,20 @@ async IniciarSesionCorreoClave(email: string, clave: string, rol: string): Promi
     return coleccion.valueChanges();
   }
 
+  TrearLogs()
+  {
+    const coleccion = this.firestore.collection('logs');
+    return coleccion.valueChanges();
+  }
+
+  TrearAccesosRapidos()
+  {
+    const coleccion = this.firestore.collection('accesoRapidos', ref =>
+    ref.orderBy("perfil", "asc")
+    );
+    return coleccion.valueChanges();
+  }
+
   ModificarUsuario(coleccion: string, objContainer: any, atributo: string, valor: any): Promise<void> {
     const query = this.firestore.collection(coleccion, ref => ref.where("mail", "==", objContainer.mail).limit(1));
 
@@ -232,6 +248,15 @@ async IniciarSesionCorreoClave(email: string, clave: string, rol: string): Promi
           return Promise.reject();
         }
       });
+  }
+
+  GuardarRegistro(mail: string, usuarioAux: any)
+  {
+    let objetoJSData = { mail: mail,
+                         fecha: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'
+    ) };
+
+    return this.firestore.collection("logs").add(objetoJSData)
   }
 
 }

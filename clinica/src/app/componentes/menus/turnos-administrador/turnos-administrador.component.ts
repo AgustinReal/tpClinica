@@ -3,6 +3,11 @@ import { FirebaseService } from 'src/app/servicios/firebase.service';
 import { DatePipe } from '@angular/common';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import Swal from 'sweetalert2';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-turnos-administrador',
@@ -16,10 +21,15 @@ export class TurnosAdministradorComponent {
   obser2$ : any;
   obser3$ : any;
   textoIngresado: string ="";
+  textoIngresado2: string ="";
   turnosFiltrados: any[] = [];
   turnos : any;
   arrayPacientes: any;
   resenia: string = "";
+  seEligioHistorial: boolean = false;
+  turnoElegido: any;
+  historial: any[] =[];
+  usuarios: any;
 
   constructor(private notificaciones: NotificacionesService, private firebase: FirebaseService, private datePipe: DatePipe, )
   {
@@ -28,7 +38,12 @@ export class TurnosAdministradorComponent {
 
   async ngOnInit() 
   {
-
+    this.obser2$ = await this.firebase.TraerUsuarios().subscribe(async datos => {
+      this.usuarios = datos.map(usuario => {
+        const { uId, nombre, correo, tipoRegistro }: any = usuario;
+        return { uId, nombre, correo, tipoRegistro };
+      });
+    });
 
     this.obser2$ = await this.firebase.TrearTurnos().subscribe(async datos => {
       this.turnos = datos
@@ -37,6 +52,29 @@ export class TurnosAdministradorComponent {
     });
 
   }
+
+  ExcelFileTurno(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data'],
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
+  }
+
+
 
   ngOnDestroy() {
     if (this.obser$) 
@@ -66,11 +104,11 @@ export class TurnosAdministradorComponent {
   {
     this.turnosFiltrados = [];
 
-    if(this.textoIngresado == "")
+    if(this.textoIngresado == "" )
     {
       this.turnosFiltrados = [...this.turnos];
     }
-    else
+    else 
     {
       const busqueda = this.textoIngresado.trim().toLocaleLowerCase();
 
@@ -79,9 +117,6 @@ export class TurnosAdministradorComponent {
         const turno = this.turnos[i];
         const fechaABuscar = this.obtenerFechaFormateada(turno.dia);
 
-        console.log(turno);
-        console.log(busqueda)
-        
         if(turno.especialista.toLocaleLowerCase().includes(busqueda)   || 
           turno.doctor.apellido.toLocaleLowerCase().includes(busqueda) ||
           turno.doctor.nombre.toLocaleLowerCase().includes(busqueda) ||
@@ -90,6 +125,16 @@ export class TurnosAdministradorComponent {
           turno.doctor.mail.toLocaleLowerCase().includes(busqueda) ||
           turno.horario.toLocaleLowerCase().includes(busqueda)   ||
           turno.estadoTurno.toLocaleLowerCase().includes(busqueda)   ||
+          turno.historialMedico.altura.includes(busqueda)   ||
+          turno.historialMedico.peso.includes(busqueda)   ||
+          turno.historialMedico.temperatura.includes(busqueda)   ||
+          turno.historialMedico.presion.includes(busqueda)   ||
+          turno.historialMedico.clave1.toLocaleLowerCase().includes(busqueda)   ||
+          turno.historialMedico.valor1.toLocaleLowerCase().includes(busqueda)   ||
+          turno.historialMedico.clave2.toLocaleLowerCase().includes(busqueda)   ||
+          turno.historialMedico.valor2.toLocaleLowerCase().includes(busqueda)   ||
+          turno.historialMedico.clave3.toLocaleLowerCase().includes(busqueda)   ||
+          turno.historialMedico.valor3.toLocaleLowerCase().includes(busqueda)   ||
           fechaABuscar.includes(busqueda))
         {
           this.turnosFiltrados.push(turno);
@@ -97,6 +142,9 @@ export class TurnosAdministradorComponent {
       }
     }
   }
+
+ 
+
 
   async AceptarTurno(pacienteAux: any)
   {
@@ -148,7 +196,13 @@ export class TurnosAdministradorComponent {
 
   }
 
- 
+  MostrarHistorialMedico(turnoPaciente: any)
+  {
+    this.seEligioHistorial = true
+    this.turnoElegido = turnoPaciente;
+    console.log(this.turnoElegido.historialMedico.altura);
+  }
+
 
   AgregarPacientes(arrayAux: Array<any>)
   {

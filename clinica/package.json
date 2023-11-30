@@ -19,10 +19,17 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+    "@types/file-saver": "^2.0.7",
+    "@types/xlsx": "^0.0.36",
+    "echarts": "^5.4.3",
+    "file-saver": "^2.0.5",
+    "jspdf": "^2.5.1",
+    "moment": "^2.29.4",
     "ngx-toastr": "^17.0.2",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.7.32",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {

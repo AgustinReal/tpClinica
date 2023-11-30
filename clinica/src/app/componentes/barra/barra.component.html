@@ -36,6 +36,9 @@
               <li class="nav-item" *ngIf="firebase.esAdmin">
                 <a class="nav-link" routerLink="administracionPerfiles">ADMINISTRACIÓN TURNOS</a>
               </li>
+              <li class="nav-item" *ngIf="firebase.esAdmin">
+                <a class="nav-link" routerLink="administracionGraficos">ESTADISTICAS</a>
+              </li>
               <button class="btn btn-warning" (click)="CerrarSesion()" *ngIf="firebase.estaLogueado">Cerrar sesión</button>
             </ul>
           </div>

@@ -29,6 +29,12 @@ export class SolicitarTurnosComponent {
   atraparDiaFinal: any;
   usuario: any;
   arrayTurnos: any;
+  obserEspecialidades$: any;
+  especialidadesTotales: any;
+  arrayMedicosConEspecialidadEspecifica: any;
+
+  seEligioEspecialidadPrincipal: boolean = false;
+  especilidadDoctor: any;
 
   constructor(private firebase: FirebaseService, private notificaciones: NotificacionesService, private datePipe: DatePipe )
   {
@@ -37,10 +43,9 @@ export class SolicitarTurnosComponent {
 
   ngOnInit() {
 
-    this.obser$ = this.firebase.TraerEspecialistas().subscribe(async datos=>{
-      this.arrayEspecilistas = datos.filter((response: any) => {return response.horarios});
-
-      this.AgregarEspecialidades(this.arrayEspecilistas);
+    this.obserEspecialidades$ = this.firebase.TraerEspecialidades().subscribe(datos=>
+    {
+      this.especialidadesTotales = datos;
     });
 
     this.obser2$ = this.firebase.TraerPacientes().subscribe(async datos => {
@@ -73,23 +78,56 @@ export class SolicitarTurnosComponent {
 
   AtraparDoctor(doctor: any)
   {
+    console.log(doctor);
     this.doctorSeleccionado = doctor;
     this.seEligioDoctor = true;
-    this.seEligioEspecialidad = false;
     this.seEligioHorario = false;
     this.seEligioDia = false;
+    this.AtraparEspecialidad(this.especilidadDoctor );
   }
 
-  AtraparEspecialidad(especialidad: any)
+  AtraparEspecialidadAux(especialidadAux: any)
   {
-    this.espcecialidadSelecionada = especialidad;
-    especialidad = especialidad.toLocaleUpperCase();
     
-    if( this.doctorSeleccionado.horarios.especialidad == especialidad)
+    this.especilidadDoctor = especialidadAux;
+    this.seEligioEspecialidadPrincipal = true;
+    this.obser$ = this.firebase.TraerEspecialistas().subscribe(async datos => {
+      this.arrayEspecilistas = datos.filter((response: any) =>
+        response.especialidad.some((e: any) => e === especialidadAux.especialidad)
+        );
+        console.log(this.arrayEspecilistas);
+        if(this.arrayEspecilistas.length == 0)
+        {
+          this.notificaciones.NotificarConToast("No tenemos especialistas con esa especialidad.", "toast-warning");
+        }
+        else
+        {
+          this.seEligioDoctor = false;
+          this.seEligioHorario = false;
+          this.seEligioEspecialidad = false;
+          this.seEligioDia = false;
+        }
+    });
+  }
+
+
+  AtraparEspecialidad(especialidadAux: any)
+  {
+    console.log(especialidadAux);
+    especialidadAux =especialidadAux.especialidad;
+    especialidadAux = especialidadAux.toUpperCase();
+    console.log(especialidadAux);
+
+    this.espcecialidadSelecionada = especialidadAux;
+
+    console.log(this.espcecialidadSelecionada);
+    
+    if( this.doctorSeleccionado.horarios.especialidad == especialidadAux)
     {
       if(this.doctorSeleccionado.horarios.dias.length > 4)
       {
         this.diasEncontrados = this.doctorSeleccionado.horarios.dias;
+        
         this.arrayDias = this.obtenerProximosDias5(this.diasEncontrados[4].dia, this.diasEncontrados[3].dia, this.diasEncontrados[2].dia, this.diasEncontrados[1].dia, this.diasEncontrados[0].dia, 2);
         this.seEligioEspecialidad = true;
       }
@@ -107,6 +145,7 @@ export class SolicitarTurnosComponent {
       }
       else if(this.doctorSeleccionado.horarios.dias.length > 1)
       {
+        console.log()
         this.diasEncontrados = this.doctorSeleccionado.horarios.dias;
         this.arrayDias = this.obtenerProximosDias2(this.diasEncontrados[1].dia, this.diasEncontrados[0].dia, 2);
         this.seEligioEspecialidad = true;
@@ -114,6 +153,7 @@ export class SolicitarTurnosComponent {
       else
       {
         this.diasEncontrados = this.doctorSeleccionado.horarios.dias;
+        console.log(this.diasEncontrados);
         this.arrayDias = this.obtenerProximosDias1(this.diasEncontrados[0].dia, 2);
         this.seEligioEspecialidad = true;
       }
@@ -139,8 +179,13 @@ export class SolicitarTurnosComponent {
 
       let formatoDia = this.datePipe.transform(dia, 'dd/MM/yyyy');
 
+      console.log(this.doctorSeleccionado.horarios.minutos);
+
       this.atraparHorarios = this.obtenerHorarios(dia, "8:00", this.doctorSeleccionado.horarios.minutos, 12)
-      .filter(horario => !this.arrayTurnos.some((turno: any) => turno.horario === horario && this.obtenerFechaFormateada(turno.dia) === formatoDia  && turno.doctor.email === this.doctorSeleccionado.email));
+      .filter(horario => !this.arrayTurnos.some((turno: any) => turno.horario === horario && this.obtenerFechaFormateada(turno.dia) === formatoDia  && turno.doctor.mail === this.doctorSeleccionado.mail));
+
+      console.log(this.arrayTurnos);
+      console.log(this.doctorSeleccionado.mail);
 
       this.seEligioDia = true;
     }
@@ -308,12 +353,13 @@ export class SolicitarTurnosComponent {
       const nuevaFecha = new Date(fecha.getTime() + i * minutos * 60 * 1000);
 
       const hora = nuevaFecha.getHours();
-      const minuto = nuevaFecha.getMinutes();
+    const minuto = nuevaFecha.getMinutes();
 
-      const horaFormateada = hora.toString().padStart(2, '0');
-      const minutoFormateado = minuto.toString().padStart(2, '0');
+    const horaFormateada = hora % 12 === 0 ? '12' : (hora % 12).toString().padStart(2, '0');
+    const amPm = hora < 12 ? 'AM' : 'PM';
+    const minutoFormateado = minuto.toString().padStart(2, '0');
 
-      horarios.push(`${horaFormateada}:${minutoFormateado}`);
+    horarios.push(`${horaFormateada}:${minutoFormateado} ${amPm}`);
     }
 
     return horarios;
@@ -340,6 +386,8 @@ export class SolicitarTurnosComponent {
           paciente: this.usuario[0],
           estadoTurno: "solicitado"
         };
+
+        console.log(turnoParaTurnos);
 
         Swal.fire('¡Confirmado!', 'Acción confirmada', 'success');
 

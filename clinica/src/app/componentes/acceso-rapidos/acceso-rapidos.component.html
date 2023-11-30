@@ -1,0 +1,6 @@
+<div class="" *ngFor="let accesoRapido of arrayAccesoEspecialista; index as i"> 
+        <button type="submit" class="btn btn-dark m-2 botonAccesoRapido" (click)="TocarUsuario(accesoRapido)"> 
+            <img style="border-radius: 30px;" src="{{accesoRapido.foto}}" class="foto">
+            <p>{{accesoRapido.perfil}}</p>
+        </button> 
+</div>   
