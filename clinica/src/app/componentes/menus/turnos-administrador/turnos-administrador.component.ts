@@ -129,12 +129,12 @@ export class TurnosAdministradorComponent {
           turno.historialMedico.peso.includes(busqueda)   ||
           turno.historialMedico.temperatura.includes(busqueda)   ||
           turno.historialMedico.presion.includes(busqueda)   ||
-          turno.historialMedico.clave1.toLocaleLowerCase().includes(busqueda)   ||
-          turno.historialMedico.valor1.toLocaleLowerCase().includes(busqueda)   ||
-          turno.historialMedico.clave2.toLocaleLowerCase().includes(busqueda)   ||
-          turno.historialMedico.valor2.toLocaleLowerCase().includes(busqueda)   ||
-          turno.historialMedico.clave3.toLocaleLowerCase().includes(busqueda)   ||
-          turno.historialMedico.valor3.toLocaleLowerCase().includes(busqueda)   ||
+          turno.historialMedico.clave1.includes(busqueda)   ||
+          turno.historialMedico.valor1.includes(busqueda)   ||
+          turno.historialMedico.clave2.includes(busqueda)   ||
+          turno.historialMedico.valor2.includes(busqueda)   ||
+          turno.historialMedico.clave3.includes(busqueda)   ||
+          turno.historialMedico.valor3.includes(busqueda)   ||
           fechaABuscar.includes(busqueda))
         {
           this.turnosFiltrados.push(turno);

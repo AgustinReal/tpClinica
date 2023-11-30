@@ -4,19 +4,20 @@ import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/
   selector: '[appCambiarColorBoton]'
 })
 export class CambiarColorBotonDirective {
-  @Input('appCambiarColorBoton') nuevoColor: string = 'red'; // Color por defecto
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef) { }
 
-  @HostListener('mouseenter') onMouseEnter() {
-    this.cambiarColor(this.nuevoColor);
+  @HostListener('mouseenter')
+  onMouseEnter() {
+    this.changeColor('yellow'); 
   }
 
-  @HostListener('mouseleave') onMouseLeave() {
-    this.cambiarColor(null);
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    this.changeColor('white');
   }
 
-  private cambiarColor(color: string | null) {
-    this.renderer.setStyle(this.el.nativeElement, 'background-color', color);
+  private changeColor(color: string) {
+    this.el.nativeElement.style.color = color;
   }
 }

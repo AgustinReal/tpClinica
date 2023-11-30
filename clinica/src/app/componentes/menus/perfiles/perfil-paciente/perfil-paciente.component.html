@@ -21,17 +21,17 @@
                         <img src="../../../../../favicon.ico" style="height: 80px; width: 80px;"  alt="">
                     </div>
                     <p style="font-size: 30px;">HISTORIAl MEDICO</p>
-                    <p style="font-size: 15px;">Especialista: {{turnoAux.especialista}}</p>  
-                    <p>{{obtenerFechaFormateada(turnoAux.dia)}}</p>                  
-                    <p>Altura: {{turnoAux.historialMedico.altura}} m</p>
-                    <p>Peso: {{turnoAux.historialMedico.peso}} kg</p>
-                    <p>Edad: {{turnoAux.historialMedico.edad}}</p>
-                    <p>Presion: {{turnoAux.historialMedico.presion}}</p>
-                    <p>Diagnostico: {{turnoAux.historialMedico.diagnostico}}</p>
-                    <p>Sexo: {{turnoAux.historialMedico.sexo}}</p>
-                    <p>{{turnoAux.historialMedico.clave1}} : {{turnoAux.historialMedico.valor1}}</p>
-                    <p>{{turnoAux.historialMedico.clave2}} : {{turnoAux.historialMedico.valor2}}</p>
-                    <p>{{turnoAux.historialMedico.clave3}} : {{turnoAux.historialMedico.valor3}}</p>
+                    <p style="font-size: 15px;">Especialista: {{turnoAux.especialista | textoMayus}}</p>  
+                    <p appResaltado>{{obtenerFechaFormateada(turnoAux.dia)}}</p>                  
+                    <p appResaltado>Altura: {{turnoAux.historialMedico.altura}} m</p>
+                    <p appResaltado>Peso: {{turnoAux.historialMedico.peso | sumadorKilos: 1}} kg</p>
+                    <p appResaltado>Edad: {{turnoAux.historialMedico.edad}}</p>
+                    <p appResaltado>Presion: {{turnoAux.historialMedico.presion}}</p>
+                    <p appResaltado>Diagnostico: {{turnoAux.historialMedico.diagnostico}}</p>
+                    <p appResaltado>Sexo: {{turnoAux.historialMedico.sexo}}</p>
+                    <p appResaltado>{{turnoAux.historialMedico.clave1}} : {{turnoAux.historialMedico.valor1}}</p>
+                    <p appResaltado>{{turnoAux.historialMedico.clave2}} : {{turnoAux.historialMedico.valor2}}</p>
+                    <p appResaltado>{{turnoAux.historialMedico.clave3}} : {{turnoAux.historialMedico.valor3}}</p>
                     <div class="justify-content-center">
                         <button class="btn btn-dark" style="width: 250px; background-color: rgb(218, 70, 70); border-radius: 15px;" (click)="crearPDF()">Descargar PDF</button>
                     </div>

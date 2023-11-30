@@ -49,6 +49,7 @@ export class GraficosComponent implements OnInit {
       this.arrayTurnos =datos;
       this.GraficarCantidadDeTurnosPorDias();
       this.GraficarCantidadTurnosSolocitadoPorLapsoTiempo();
+      this.GraficarCantidadTurnosTerminadoPorLapsoTiempo();
     });
     
     this.obserEspecialidades$ = this.firebase.TraerEspecialidades().subscribe(async datos => {
@@ -97,8 +98,8 @@ saveAsExcelFile(buffer: any, fileName: string): void {
   );
 }
 
-crearPDF(nombreArchivo: string) {
-  const DATA = document.getElementById('pdf');
+crearPDF(nombreArchivo: string, idGrafico: string) {
+  const DATA = document.getElementById(idGrafico);
   const doc = new jsPDF('p', 'pt', 'a4');
   const options = {
     background: 'white',
@@ -142,13 +143,66 @@ GraficarCantidadTurnosSolocitadoPorLapsoTiempo()
   let arrayMedicos = this.obtenerMedicos();
   console.log(arrayMedicos[0]);
 
-  let cantidadDias= this.contarTurnosEnLapsoTiempo(arrayMedicos[0], this.diasAtras, this.arrayTurnos);
+  let cantidadDias= this.contarTurnosEnLapsoTiempo(arrayMedicos[0], this.diasAtras, this.arrayTurnos, "aceptado");
 
  console.log(cantidadDias);
 
  for (const medico of arrayMedicos) 
   {
-    arrayCantidadTurnosMedicosLapsoDeTiempo.push({value: this.contarTurnosEnLapsoTiempo(medico, this.diasAtras, this.arrayTurnos), name: medico});
+    arrayCantidadTurnosMedicosLapsoDeTiempo.push({value: this.contarTurnosEnLapsoTiempo(medico, this.diasAtras, this.arrayTurnos, "aceptado"), name: medico});
+  }
+
+
+  option = {
+    title: {
+      text: 'Cantidad de turnos solicitado por médico en un lapso de tiempo',
+      subtext: 'Muestra los doctores mas activos',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: '50%',
+        data: arrayCantidadTurnosMedicosLapsoDeTiempo,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
+  };
+  
+  option && myChart.setOption(option);
+}
+
+GraficarCantidadTurnosTerminadoPorLapsoTiempo()
+{
+  var chartDom = document.getElementById('graficoCantidadTurnosTerminadoPorLapsoTiempo');
+  var myChart = echarts.init(chartDom);
+  var option;
+  let arrayCantidadTurnosMedicosLapsoDeTiempo : Array<any> = [];
+
+  let arrayMedicos = this.obtenerMedicos();
+  console.log(arrayMedicos[0]);
+
+  let cantidadDias= this.contarTurnosEnLapsoTiempo(arrayMedicos[0], this.diasAtras, this.arrayTurnos, "finalizado");
+
+ console.log(cantidadDias);
+
+ for (const medico of arrayMedicos) 
+  {
+    arrayCantidadTurnosMedicosLapsoDeTiempo.push({value: this.contarTurnosEnLapsoTiempo(medico, this.diasAtras, this.arrayTurnos, "finalizado"), name: medico});
   }
 
 
@@ -203,12 +257,12 @@ calcularCantidadTurnos(doctor: any)
     return cantidadTurnos;
 }
 
-contarTurnosEnLapsoTiempo(medico: string, cantidadDias: number, turnos: any): number {
+contarTurnosEnLapsoTiempo(medico: string, cantidadDias: number, turnos: any, estadoTurno: string): number {
   const fechaActual = new Date();
   const fechaLimite = new Date();
   fechaLimite.setDate(fechaActual.getDate() - cantidadDias); // Retroceder la cantidad de días especificada
 
-  return turnos.filter((turno: any) => turno.doctor.nombre  === medico && turno.dia.toDate()  >= fechaLimite).length;
+  return turnos.filter((turno: any) => turno.doctor.nombre  === medico && turno.estadoTurno === estadoTurno && turno.dia.toDate()  >= fechaLimite).length;
 }
 
 EligirCantidadDias(dia: number)

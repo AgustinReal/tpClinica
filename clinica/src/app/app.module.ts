@@ -32,6 +32,10 @@ import { SolicitarTurnosAdminComponent } from './componentes/menus/turnos/solici
 import { AccesoRapidosComponent } from './componentes/acceso-rapidos/acceso-rapidos.component';
 import { GraficosComponent } from './componentes/graficos/graficos.component';
 import { CambiarColorBotonDirective } from './directivas/cambiar-color-boton.directive';
+import { TextoMayusPipe } from './pipes/texto-mayus.pipe';
+import { ResaltadoDirective } from './directivas/resaltado.directive';
+import { SumadorKilosPipe } from './pipes/sumador-kilos.pipe';
+import { AgrandarLetraDirective } from './directivas/agrandar-letra.directive';
 
 @NgModule({
   declarations: [
@@ -54,7 +58,11 @@ import { CambiarColorBotonDirective } from './directivas/cambiar-color-boton.dir
     SolicitarTurnosAdminComponent,
     AccesoRapidosComponent,
     GraficosComponent,
-    CambiarColorBotonDirective
+    CambiarColorBotonDirective,
+    TextoMayusPipe,
+    ResaltadoDirective,
+    SumadorKilosPipe,
+    AgrandarLetraDirective
   ],
   imports: [
     BrowserModule,

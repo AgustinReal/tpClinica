@@ -368,9 +368,10 @@ export class SolicitarTurnosComponent {
  async mostrarSweetAlert()
   {
     Swal.fire({
-      title: 'Título del SweetAlert',
-      text: 'Descripción del SweetAlert',
-      icon: 'warning', // Puedes cambiar el icono a 'info', 'success', 'error', etc.
+      title: 'Sacar Turno',
+      iconHtml: '<img src="../../../../favicon.ico" style="width: 50px;  height: 50px;" alt="">',   
+      text: 'una vez seleccionado el turno, lo vera reflejado mis turnos.',
+      background: "rgb(95, 186, 228)",
       showCancelButton: true,
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar',

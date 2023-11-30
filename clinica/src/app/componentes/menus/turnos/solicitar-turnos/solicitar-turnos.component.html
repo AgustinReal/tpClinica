@@ -3,10 +3,10 @@
         <div class="card-header row" style="background-color: rgb(95, 186, 228); padding: 2rem;">
           
           <div class="row justify-content-center" style="padding: 1rem;" >
-            <h1 style="text-align: center; color: aliceblue;">ESPECIALIDADES</h1>
+            <h1 style="text-align: center; color: aliceblue;" appResaltado>ESPECIALIDADES</h1>
               <div class="col-2"  *ngFor="let especialidadAux of especialidadesTotales; index as i">
                   <button type="button" 
-                  class="btn btn-outline-warning  btnDifEspecialista" (click)="AtraparEspecialidadAux(especialidadAux)">
+                  class="btn btn-outline-warning  btnDifEspecialista"  (click)="AtraparEspecialidadAux(especialidadAux)">
                   <img src="{{'../../../../../../../assets/imagenes/especilialidades/' +especialidadAux.especialidad + '.png'}}">
                   </button>
               </div>
@@ -33,7 +33,7 @@
             <h1 style="text-align: center; color: aliceblue;">HORARIOS DISPONIBLES</h1>
               <div class="col-2"  *ngFor="let hora of atraparHorarios; index as i">
                   <button type="button" 
-                  class="btn btn-outline-warning  btnRectangulo m-2" appCambiarColorBoton nuevoColor="yellow" (click)="AtraparHorario(hora)">
+                  class="btn btn-outline-warning  btnRectangulo m-2"  (click)="AtraparHorario(hora)">
                   {{hora }}</button>
               </div>
           </div>
